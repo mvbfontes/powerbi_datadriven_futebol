@@ -1,0 +1,62 @@
+table Clube
+	lineageTag: 1d0ce582-ffaa-4bf6-a58d-9bd06de8cfb9
+
+	column 'Nome do Clube'
+		dataType: string
+		lineageTag: 41eed0bb-7311-49ab-bfe3-1f63d7714307
+		summarizeBy: none
+		sourceColumn: Nome do Clube
+
+		annotation SummarizationSetBy = Automatic
+
+	column UF
+		dataType: string
+		lineageTag: 65f2944d-7498-47f9-9b52-38f30cc94b4d
+		summarizeBy: none
+		sourceColumn: UF
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_clube
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: de78be61-5126-4a23-aa03-cda4cd02af73
+		summarizeBy: none
+		sourceColumn: id_clube
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Escudo
+		dataType: string
+		lineageTag: a7dae034-61ff-46c0-b392-f30718008555
+		dataCategory: ImageUrl
+		summarizeBy: none
+		sourceColumn: Escudo
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Clube = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(Web.Contents("https://raw.githubusercontent.com/mvbfontes/powerbi_datadriven_futebol/refs/heads/main/Dados/campeonato-brasileiro-full.csv"),[Delimiter=",", Columns=16, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"ID", Int64.Type}, {"rodata", Int64.Type}, {"data", type date}, {"hora", type time}, {"mandante", type text}, {"visitante", type text}, {"formacao_mandante", type text}, {"formacao_visitante", type text}, {"tecnico_mandante", type text}, {"tecnico_visitante", type text}, {"vencedor", type text}, {"arena", type text}, {"mandante_Placar", Int64.Type}, {"visitante_Placar", Int64.Type}, {"mandante_Estado", type text}, {"visitante_Estado", type text}}),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(#"Tipo Alterado",{"mandante", "mandante_Estado"}),
+				    #"Linhas Classificadas" = Table.Sort(#"Outras Colunas Removidas",{{"mandante", Order.Ascending}}),
+				    #"Duplicatas Removidas" = Table.Distinct(#"Linhas Classificadas"),
+				    #"Índice Adicionado" = Table.AddIndexColumn(#"Duplicatas Removidas", "Índice", 1, 1, Int64.Type),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Índice Adicionado",{{"Índice", "id_clube"}, {"mandante", "Nome do Clube"}, {"mandante_Estado", "UF"}}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Colunas Renomeadas", {"Nome do Clube"}, escudos_clubes, {"nome_clube"}, "escudos_clubes", JoinKind.LeftOuter),
+				    #"escudos_clubes Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "escudos_clubes", {"link_escudo"}, {"link_escudo"}),
+				    #"Colunas Renomeadas1" = Table.RenameColumns(#"escudos_clubes Expandido",{{"link_escudo", "Escudo"}})
+				in
+				    #"Colunas Renomeadas1"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

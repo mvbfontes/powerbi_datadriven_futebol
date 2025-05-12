@@ -1,0 +1,41 @@
+table Estádio
+	lineageTag: 0fc3f022-46c4-4f0a-a670-a55df9c54549
+
+	column 'Nome do Estádio'
+		dataType: string
+		lineageTag: bbba6440-2f3a-4f9e-89a1-629ca55ec323
+		summarizeBy: none
+		sourceColumn: Nome do Estádio
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_estádio
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: fa8687ac-81be-41b9-aa61-3249cd5b004c
+		summarizeBy: none
+		sourceColumn: id_estádio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Estádio = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(Web.Contents("https://raw.githubusercontent.com/mvbfontes/powerbi_datadriven_futebol/refs/heads/main/Dados/campeonato-brasileiro-full.csv"),[Delimiter=",", Columns=16, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"ID", Int64.Type}, {"rodata", Int64.Type}, {"data", type date}, {"hora", type time}, {"mandante", type text}, {"visitante", type text}, {"formacao_mandante", type text}, {"formacao_visitante", type text}, {"tecnico_mandante", type text}, {"tecnico_visitante", type text}, {"vencedor", type text}, {"arena", type text}, {"mandante_Placar", Int64.Type}, {"visitante_Placar", Int64.Type}, {"mandante_Estado", type text}, {"visitante_Estado", type text}}),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(#"Tipo Alterado",{"arena"}),
+				    #"Duplicatas Removidas" = Table.Distinct(#"Outras Colunas Removidas"),
+				    #"Índice Adicionado" = Table.AddIndexColumn(#"Duplicatas Removidas", "Índice", 1, 1, Int64.Type),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Índice Adicionado",{{"arena", "Nome do Estádio"}, {"Índice", "id_estádio"}})
+				in
+				    #"Colunas Renomeadas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

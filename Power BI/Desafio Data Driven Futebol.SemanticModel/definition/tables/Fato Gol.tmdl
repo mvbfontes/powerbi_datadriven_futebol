@@ -1,0 +1,204 @@
+table 'Fato Gol'
+	lineageTag: d7af56d8-5076-48ad-b582-d0a116fc9355
+
+	column id_partida
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 12029bb4-73c7-4523-9d2d-c6def2c7925a
+		summarizeBy: none
+		sourceColumn: id_partida
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column rodada
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4475da8a-2be7-4cb9-b05e-f313f6fded44
+		summarizeBy: none
+		sourceColumn: rodada
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column minuto
+		dataType: string
+		isHidden
+		lineageTag: a2caac9a-606c-45e3-b6c8-2e53cd14c2e7
+		summarizeBy: none
+		sourceColumn: minuto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_de_gol
+		dataType: string
+		isHidden
+		lineageTag: 0f9df1c9-0f9e-4026-8b2d-369ded18730b
+		summarizeBy: none
+		sourceColumn: tipo_de_gol
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_clube
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2823e03d-6a39-40ca-b969-2f7802dc3dfa
+		summarizeBy: none
+		sourceColumn: id_clube
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_jogador
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b6d33b64-5320-4fa1-bd26-d521f68340b0
+		summarizeBy: none
+		sourceColumn: id_jogador
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dateid
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8a9c8e17-ca03-4ffc-aee0-0c024910f077
+		summarizeBy: none
+		sourceColumn: Dateid
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_clube_mandante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 08746c8c-ba61-4261-bc1f-94c11d0cebc3
+		summarizeBy: none
+		sourceColumn: id_clube_mandante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column id_clube_visitante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 76d022bc-554f-4b04-8315-9c24fa1e2450
+		summarizeBy: none
+		sourceColumn: id_clube_visitante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column id_tecnico_mandante
+		dataType: string
+		isHidden
+		lineageTag: a86f298e-2e90-468a-8253-0ef9ec6743dc
+		summarizeBy: none
+		sourceColumn: id_tecnico_mandante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_tecnico_visitante
+		dataType: string
+		isHidden
+		lineageTag: 8fb3072b-57e3-47a1-9ce4-b8abab223c12
+		summarizeBy: none
+		sourceColumn: id_tecnico_visitante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_estádio
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7ea75a6a-8576-474c-a05d-f77e8c393bd8
+		summarizeBy: none
+		sourceColumn: id_estádio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Intervalo minutos'
+		dataType: string
+		lineageTag: 21f84653-a0fd-402f-9c4b-f823f87deb4e
+		summarizeBy: none
+		sourceColumn: Intervalo minutos
+		sortByColumn: 'Minuto inicial intervalo'
+
+		changedProperty = IsHidden
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Minuto inicial intervalo'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0b10dd34-314a-440e-ab0b-2d6106e25bee
+		summarizeBy: none
+		sourceColumn: Minuto inicial intervalo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column tempo_gol
+		dataType: string
+		lineageTag: 84a70be2-a990-43e6-9ff5-d6a076fce165
+		summarizeBy: none
+		sourceColumn: tempo_gol
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Fato Gol' = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(Web.Contents("https://raw.githubusercontent.com/mvbfontes/powerbi_datadriven_futebol/refs/heads/main/Dados/campeonato-brasileiro-gols.csv"),[Delimiter=",", Columns=6, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"partida_id", Int64.Type}, {"rodata", Int64.Type}, {"clube", type text}, {"atleta", type text}, {"minuto", type text}, {"tipo_de_gol", type text}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado",{{"rodata", "rodada"}, {"partida_id", "id_partida"}}),
+				    #"Intervalo Inserido" = Table.AddColumn(#"Colunas Renomeadas", "Intervalo minutos", each if Text.Contains([minuto],"45+") then "45+" else if Text.Contains([minuto],"90+") then "90+" else let rangeSize = 5, offset = 1, inclusive = true, rangeIndex = Number.RoundDown((Number.From([minuto]) - offset) / rangeSize) in Text.From(rangeIndex * rangeSize + offset, "pt-BR") & "-" & Text.From((rangeIndex + 1) * rangeSize + offset - (if inclusive then 1 else 0), "pt-BR")),
+				    #"Texto Inserido Antes do Delimitador" = Table.AddColumn(#"Intervalo Inserido", "Minuto inicial intervalo", each Text.BeforeDelimiter([Intervalo minutos], "-"), type text),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Texto Inserido Antes do Delimitador",{{"Minuto inicial intervalo", Int64.Type}}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Tipo Alterado1", "tempo_gol", each if [Minuto inicial intervalo] = null then null else if [Minuto inicial intervalo] < 46 then "1º tempo" else if [Minuto inicial intervalo] >=46 then "2º tempo" else null),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Personalização Adicionada", {"clube"}, Clube, {"Nome do Clube"}, "Dim Clube", JoinKind.LeftOuter),
+				    #"Dim Clube Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Dim Clube", {"id_clube"}, {"id_clube"}),
+				    #"Consultas Mescladas1" = Table.NestedJoin(#"Dim Clube Expandido", {"atleta", "clube"}, Jogador, {"Nome do Jogador", "Nome do Clube"}, "Dim Jogador", JoinKind.LeftOuter),
+				    #"Dim Jogador Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas1", "Dim Jogador", {"id_jogador"}, {"id_jogador"}),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(#"Dim Jogador Expandido",{"id_partida", "rodada", "minuto", "tipo_de_gol", "Intervalo minutos", "Minuto inicial intervalo", "tempo_gol", "id_clube", "id_jogador"}),
+				    #"Consultas Mescladas2" = Table.NestedJoin(#"Outras Colunas Removidas", {"id_partida"}, Partida, {"id_partida"}, "Fato Partida", JoinKind.LeftOuter),
+				    #"Fato Partida Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas2", "Fato Partida", {"Dateid", "id_clube_mandante", "id_clube_visitante", "id_tecnico_mandante", "id_tecnico_visitante", "id_estádio"}, {"Dateid", "id_clube_mandante", "id_clube_visitante", "id_tecnico_mandante", "id_tecnico_visitante", "id_estádio"})
+				in
+				    #"Fato Partida Expandido"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

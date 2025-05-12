@@ -1,0 +1,167 @@
+expression fnTempo =
+		(DateStart as date, DateEnd as date) as table =>
+		let
+		    Source = List.Dates(DateStart, Duration.Days(Duration.From(DateEnd - DateStart)) + 1, #duration(1, 0, 0, 0)),
+		    AddColumns = Table.FromList(Source, Splitter.SplitByNothing(), {"Data"}),
+		    CustomColumns = Table.TransformColumns(AddColumns, {{"Data", each DateTime.Date(_), type date}}),
+		    AddDiaDoMes = Table.AddColumn(CustomColumns, "Dia do mês", each Date.Day([Data]), type number),
+		    AddNumeroMes = Table.AddColumn(AddDiaDoMes, "Número do mês", each Date.Month([Data]), type number),
+		    AddAno = Table.AddColumn(AddNumeroMes, "Ano", each Date.Year([Data]), type number),
+		    AddDiaDaSemana = Table.AddColumn(AddAno, "Dia da semana", each Date.DayOfWeek([Data], Day.Monday) + 1, type number),
+		    AddNomeMes = Table.AddColumn(AddDiaDaSemana, "Nome do mês", each Date.MonthName([Data]), type text),
+		    AddNomeDiaSemana = Table.AddColumn(AddNomeMes, "Nome do dia da semana", each Date.DayOfWeekName([Data]), type text),
+		    AddTrimestre = Table.AddColumn(AddNomeDiaSemana, "Trimestre", each Number.RoundUp(Date.Month([Data]) / 3), type number),
+		    AddTrimestreAno = Table.AddColumn(AddTrimestre, "Trimestre-Ano", each "T" & Text.From(Number.RoundUp(Date.Month([Data]) / 3)) & "-" & Text.From(Date.Year([Data])), type text),
+		    AddAnoMes = Table.AddColumn(AddTrimestreAno, "Ano-Mês", each Text.From(Date.Year([Data])) & "-" & Text.PadStart(Text.From(Date.Month([Data])), 2, "0"), type text),
+		    AddNumeroSemanaAno = Table.AddColumn(AddAnoMes, "Número da semana do ano", each Date.WeekOfYear([Data]), type number),
+		    AddFimDeSemana = Table.AddColumn(AddNumeroSemanaAno, "Fim de semana", each if Date.DayOfWeek([Data], Day.Monday) + 1 >= 6 then "Sim" else "Não", type text),
+		    AddDateid = Table.AddColumn(AddFimDeSemana, "Dateid", each Text.From(Date.Year([Data])) & Text.PadStart(Text.From(Date.Month([Data])), 2, "0") & Text.PadStart(Text.From(Date.Day([Data])), 2, "0"), type text)
+		in
+		    AddDateid
+	lineageTag: b0f19bbc-c478-4dca-a22b-ad1fcfaf7738
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Function
+
+expression campeonato-brasileiro-cartoes-jogador =
+		let
+		    Fonte = Csv.Document(Web.Contents("https://raw.githubusercontent.com/mvbfontes/powerbi_datadriven_futebol/refs/heads/main/Dados/campeonato-brasileiro-cartoes.csv"),[Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"partida_id", Int64.Type}, {"rodata", Int64.Type}, {"clube", type text}, {"cartao", type text}, {"atleta", type text}, {"num_camisa", Int64.Type}, {"posicao", type text}, {"minuto", type text}}),
+		    #"Outras Colunas Removidas" = Table.SelectColumns(#"Tipo Alterado",{"clube", "atleta"})
+		in
+		    #"Outras Colunas Removidas"
+	lineageTag: eb31ccbc-189c-4ecb-9410-59dc8ba16169
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
+expression campeonato-brasileiro-gols-jogador =
+		let
+		    Fonte = Csv.Document(Web.Contents("https://raw.githubusercontent.com/mvbfontes/powerbi_datadriven_futebol/refs/heads/main/Dados/campeonato-brasileiro-gols.csv"),[Delimiter=",", Columns=6, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"partida_id", Int64.Type}, {"rodata", Int64.Type}, {"clube", type text}, {"atleta", type text}, {"minuto", type text}, {"tipo_de_gol", type text}}),
+		    #"Linhas Filtradas" = Table.SelectRows(#"Tipo Alterado", each ([tipo_de_gol] <> "Gol Contra")),
+		    #"Outras Colunas Removidas" = Table.SelectColumns(#"Linhas Filtradas",{"atleta", "clube"})
+		in
+		    #"Outras Colunas Removidas"
+	lineageTag: 8902813d-11a7-46aa-9aed-18d79ee8910c
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
+expression campeonato-brasileiro-full-tecnico-mandante =
+		let
+		    Fonte = Csv.Document(Web.Contents("https://raw.githubusercontent.com/mvbfontes/powerbi_datadriven_futebol/refs/heads/main/Dados/campeonato-brasileiro-full.csv"),[Delimiter=",", Columns=16, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"ID", Int64.Type}, {"rodata", Int64.Type}, {"data", type date}, {"hora", type time}, {"mandante", type text}, {"visitante", type text}, {"formacao_mandante", type text}, {"formacao_visitante", type text}, {"tecnico_mandante", type text}, {"tecnico_visitante", type text}, {"vencedor", type text}, {"arena", type text}, {"mandante_Placar", Int64.Type}, {"visitante_Placar", Int64.Type}, {"mandante_Estado", type text}, {"visitante_Estado", type text}}),
+		    #"Outras Colunas Removidas" = Table.SelectColumns(#"Tipo Alterado",{"tecnico_mandante"}),
+		    #"Linhas Filtradas" = Table.SelectRows(#"Outras Colunas Removidas", each ([tecnico_mandante] <> "")),
+		    #"Colunas Renomeadas" = Table.RenameColumns(#"Linhas Filtradas",{{"tecnico_mandante", "tecnico"}})
+		in
+		    #"Colunas Renomeadas"
+	lineageTag: e2b1ed87-4f69-4d51-9bb3-ffd48f7f1ae3
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
+expression campeonato-brasileiro-full-tecnico-visitante =
+		let
+		    Fonte = Csv.Document(Web.Contents("https://raw.githubusercontent.com/mvbfontes/powerbi_datadriven_futebol/refs/heads/main/Dados/campeonato-brasileiro-full.csv"),[Delimiter=",", Columns=16, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"ID", Int64.Type}, {"rodata", Int64.Type}, {"data", type date}, {"hora", type time}, {"mandante", type text}, {"visitante", type text}, {"formacao_mandante", type text}, {"formacao_visitante", type text}, {"tecnico_mandante", type text}, {"tecnico_visitante", type text}, {"vencedor", type text}, {"arena", type text}, {"mandante_Placar", Int64.Type}, {"visitante_Placar", Int64.Type}, {"mandante_Estado", type text}, {"visitante_Estado", type text}}),
+		    #"Outras Colunas Removidas" = Table.SelectColumns(#"Tipo Alterado",{"tecnico_visitante"}),
+		    #"Linhas Filtradas" = Table.SelectRows(#"Outras Colunas Removidas", each ([tecnico_visitante] <> "")),
+		    #"Colunas Renomeadas" = Table.RenameColumns(#"Linhas Filtradas",{{"tecnico_visitante", "tecnico"}})
+		in
+		    #"Colunas Renomeadas"
+	lineageTag: 4edaf15f-904a-44aa-9dbf-eecf5a83418f
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
+expression campeonato-brasileiro-cartoes =
+		let
+		    Fonte = Csv.Document(Web.Contents("https://raw.githubusercontent.com/mvbfontes/powerbi_datadriven_futebol/refs/heads/main/Dados/campeonato-brasileiro-cartoes.csv"),[Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"partida_id", Int64.Type}, {"rodata", Int64.Type}, {"clube", type text}, {"cartao", type text}, {"atleta", type text}, {"num_camisa", Int64.Type}, {"posicao", type text}, {"minuto", type text}})
+		in
+		    #"Tipo Alterado"
+	lineageTag: 6033b88b-a994-4673-9ca7-ce221a42b6b2
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
+expression campeonato-brasileiro-estatisticas-full =
+		let
+		    Fonte = Csv.Document(Web.Contents("https://raw.githubusercontent.com/mvbfontes/powerbi_datadriven_futebol/refs/heads/main/Dados/campeonato-brasileiro-estatisticas-full.csv"),[Delimiter=",", Columns=13, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"partida_id", Int64.Type}, {"rodata", Int64.Type}, {"clube", type text}, {"chutes", Int64.Type}, {"chutes_no_alvo", Int64.Type}, {"posse_de_bola", type text}, {"passes", Int64.Type}, {"precisao_passes", type text}, {"faltas", Int64.Type}, {"cartao_amarelo", Int64.Type}, {"cartao_vermelho", Int64.Type}, {"impedimentos", Int64.Type}, {"escanteios", Int64.Type}})
+		in
+		    #"Tipo Alterado"
+	lineageTag: f7a5cf10-612a-4883-a7ce-602afcc9102f
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
+expression campeonato-brasileiro-full =
+		let
+		    Fonte = Csv.Document(Web.Contents("https://raw.githubusercontent.com/mvbfontes/powerbi_datadriven_futebol/refs/heads/main/Dados/campeonato-brasileiro-full.csv"),[Delimiter=",", Columns=16, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"ID", Int64.Type}, {"rodata", Int64.Type}, {"data", type date}, {"hora", type time}, {"mandante", type text}, {"visitante", type text}, {"formacao_mandante", type text}, {"formacao_visitante", type text}, {"tecnico_mandante", type text}, {"tecnico_visitante", type text}, {"vencedor", type text}, {"arena", type text}, {"mandante_Placar", Int64.Type}, {"visitante_Placar", Int64.Type}, {"mandante_Estado", type text}, {"visitante_Estado", type text}})
+		in
+		    #"Tipo Alterado"
+	lineageTag: facbc470-1688-4209-8885-d9f070991167
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
+expression campeonato-brasileiro-gols =
+		let
+		    Fonte = Csv.Document(Web.Contents("https://raw.githubusercontent.com/mvbfontes/powerbi_datadriven_futebol/refs/heads/main/Dados/campeonato-brasileiro-gols.csv"),[Delimiter=",", Columns=6, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"partida_id", Int64.Type}, {"rodata", Int64.Type}, {"clube", type text}, {"atleta", type text}, {"minuto", type text}, {"tipo_de_gol", type text}})
+		in
+		    #"Tipo Alterado"
+	lineageTag: b4d5df52-ef03-4470-bfa6-01017f355e02
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
+expression escudos_clubes =
+		let
+		    Fonte = Csv.Document(Web.Contents("https://raw.githubusercontent.com/mvbfontes/powerbi_datadriven_futebol/refs/heads/main/Dados/escudos_clubes.csv"),[Delimiter=",", Columns=2, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Column1", type text}, {"Column2", type text}}),
+		    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"Tipo Alterado", [PromoteAllScalars=true]),
+		    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"nome_clube", type text}, {"link_escudo", type text}})
+		in
+		    #"Tipo Alterado1"
+	lineageTag: 44f16f03-3b96-46e8-8d1b-d0a596ad172c
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
+expression dataset_foto_jogador =
+		let
+		    Fonte = Csv.Document(Web.Contents("https://raw.githubusercontent.com/mvbfontes/powerbi_datadriven_futebol/refs/heads/main/Dados/dataset_foto_jogador.csv"),[Delimiter=",", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Column1", type text}, {"Column2", type text}}),
+		    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"Tipo Alterado", [PromoteAllScalars=true]),
+		    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"nome jogador", type text}, {"foto_jogador", type text}})
+		in
+		    #"Tipo Alterado1"
+	lineageTag: 7aa19b02-e4db-49fd-9a41-b585dcf590cd
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

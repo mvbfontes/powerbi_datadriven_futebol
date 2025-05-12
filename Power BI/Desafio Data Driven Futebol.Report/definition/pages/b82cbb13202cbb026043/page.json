@@ -1,0 +1,78 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/1.3.0/schema.json",
+  "name": "b82cbb13202cbb026043",
+  "displayName": "Análise histórica",
+  "displayOption": "FitToPage",
+  "height": 1080,
+  "width": 1920,
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'4- Pag Historico (1).png'"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "ResourcePackageItem": {
+                    "PackageName": "RegisteredResources",
+                    "PackageType": 1,
+                    "ItemName": "4-_Pag_Historico_(1)6529215846237538.png"
+                  }
+                }
+              },
+              "scaling": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Fit'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visibility": "HiddenInViewMode",
+  "visualInteractions": [
+    {
+      "source": "6a92cc1521b2e52afe68",
+      "target": "e4aaee2f354d3ee060c3",
+      "type": "NoFilter"
+    },
+    {
+      "source": "6a92cc1521b2e52afe68",
+      "target": "c075e1f1d670a4361836",
+      "type": "NoFilter"
+    },
+    {
+      "source": "6a92cc1521b2e52afe68",
+      "target": "425656c92e3c714ed445",
+      "type": "NoFilter"
+    },
+    {
+      "source": "6a92cc1521b2e52afe68",
+      "target": "ca04d6ecff78bddad466",
+      "type": "NoFilter"
+    },
+    {
+      "source": "6a92cc1521b2e52afe68",
+      "target": "fb3e06c6dd527c44bdb8",
+      "type": "NoFilter"
+    }
+  ]
+}

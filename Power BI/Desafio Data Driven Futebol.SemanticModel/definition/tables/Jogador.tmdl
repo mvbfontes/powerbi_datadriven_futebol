@@ -1,0 +1,58 @@
+table Jogador
+	lineageTag: 65153a10-498c-42ac-be8c-3cb14069ca10
+
+	column 'Nome do Jogador'
+		dataType: string
+		lineageTag: e405b413-e2ae-4d76-9265-92ecc9a0bb53
+		summarizeBy: none
+		sourceColumn: Nome do Jogador
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome do Clube'
+		dataType: string
+		lineageTag: f8c93038-e368-4663-9f31-32e784a9507d
+		summarizeBy: none
+		sourceColumn: Nome do Clube
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_jogador
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 46362d1c-8fc0-441e-a4e8-4ba8613d4395
+		summarizeBy: none
+		sourceColumn: id_jogador
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column foto_jogador
+		dataType: string
+		lineageTag: 4ae6d743-3326-4b18-907c-0c54f7c39fad
+		dataCategory: ImageUrl
+		summarizeBy: none
+		sourceColumn: foto_jogador
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Jogador = m
+		mode: import
+		source =
+				let
+				    Fonte = Table.Combine({#"campeonato-brasileiro-gols-jogador", #"campeonato-brasileiro-cartoes-jogador"}),
+				    #"Duplicatas Removidas" = Table.Distinct(Fonte),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Duplicatas Removidas", each ([atleta] <> "")),
+				    #"Índice Adicionado" = Table.AddIndexColumn(#"Linhas Filtradas", "Índice", 1, 1, Int64.Type),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Índice Adicionado",{{"Índice", "id_jogador"}, {"atleta", "Nome do Jogador"}, {"clube", "Nome do Clube"}}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Colunas Renomeadas", {"Nome do Jogador", "Nome do Clube"}, dataset_foto_jogador, {"nome jogador", "clube"}, "dataset_foto_jogador", JoinKind.LeftOuter),
+				    #"dataset_foto_jogador Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "dataset_foto_jogador", {"foto_jogador"}, {"foto_jogador"})
+				in
+				    #"dataset_foto_jogador Expandido"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

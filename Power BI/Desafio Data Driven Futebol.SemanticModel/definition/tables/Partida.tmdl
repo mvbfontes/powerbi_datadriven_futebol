@@ -1,0 +1,453 @@
+table Partida
+	lineageTag: 329e9627-cad0-42b0-97ce-9fd10732126c
+
+	column id_partida
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3d65119d-d7e7-4f19-80f3-a1f1e493c81f
+		summarizeBy: none
+		sourceColumn: id_partida
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column rodada
+		dataType: int64
+		formatString: 0
+		lineageTag: 4efbc003-571c-44b5-ae32-2d1fb1cd7969
+		summarizeBy: none
+		sourceColumn: rodada
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column gols_mandante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b2698558-2b88-474f-8fb1-fbcb3eea697f
+		summarizeBy: sum
+		sourceColumn: gols_mandante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column gols_visitante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8bef85d9-c75b-4442-ab4a-b27dd5781c44
+		summarizeBy: sum
+		sourceColumn: gols_visitante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dateid
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8e523f0d-2ea7-47bb-83e7-d09001f73475
+		summarizeBy: none
+		sourceColumn: Dateid
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_clube_mandante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0b447e23-1793-4bbc-8dda-2ceffb1e09ac
+		summarizeBy: none
+		sourceColumn: id_clube_mandante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_clube_visitante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4fe313f1-6361-44fc-8ac7-5056290b9f6a
+		summarizeBy: none
+		sourceColumn: id_clube_visitante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column id_tecnico_mandante
+		dataType: string
+		isHidden
+		lineageTag: c5783ff1-7711-4077-a29d-dbbe5dac0f03
+		summarizeBy: none
+		sourceColumn: id_tecnico_mandante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_tecnico_visitante
+		dataType: string
+		isHidden
+		lineageTag: 0a98a1ec-20f4-483a-b891-8f68d8791dec
+		summarizeBy: none
+		sourceColumn: id_tecnico_visitante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_estádio
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 30283474-6ef6-4f7d-a2dc-cc0f0afe3383
+		summarizeBy: none
+		sourceColumn: id_estádio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column pontos_mandante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: df69bd24-a106-4ea7-8d36-cbe5108cf272
+		summarizeBy: sum
+		sourceColumn: pontos_mandante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column pontos_visitante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0928cd19-9627-4415-b9b1-a29231ee2f4a
+		summarizeBy: sum
+		sourceColumn: pontos_visitante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column resultado
+		dataType: string
+		lineageTag: d6b164b1-a073-434e-9916-67addb28f42b
+		summarizeBy: none
+		sourceColumn: resultado
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column chutes_mandante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: dc4b5995-2e1f-475b-a587-8954debd3c42
+		summarizeBy: sum
+		sourceColumn: chutes_mandante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column chutes_alvo_mandante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a894a33b-efaf-449d-be22-571606db3690
+		summarizeBy: sum
+		sourceColumn: chutes_alvo_mandante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column posse_bola_mandante
+		dataType: double
+		isHidden
+		lineageTag: ce82d7bc-f4d2-47b4-9d52-189f44514c8f
+		summarizeBy: average
+		sourceColumn: posse_bola_mandante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column passes_mandante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 31320c0c-7e18-40bf-967a-57058a217cd4
+		summarizeBy: sum
+		sourceColumn: passes_mandante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column precisao_passes_mandante
+		dataType: double
+		isHidden
+		lineageTag: 60ac10d3-f836-471c-adec-39468c2b6882
+		summarizeBy: average
+		sourceColumn: precisao_passes_mandante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column faltas_mandante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 97eb1220-4141-4c31-bcd4-f80a408a857e
+		summarizeBy: sum
+		sourceColumn: faltas_mandante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column cartao_amarelo_mandante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 150d72cd-384d-49b0-b4ea-b7a71f72d823
+		summarizeBy: sum
+		sourceColumn: cartao_amarelo_mandante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column cartao_vermelho_mandante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: dd4e852b-4e7b-4a4b-8e1c-23a1ec4b6237
+		summarizeBy: sum
+		sourceColumn: cartao_vermelho_mandante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column impedimentos_mandante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c7e304b9-a828-45c8-baaf-0e076fad45db
+		summarizeBy: sum
+		sourceColumn: impedimentos_mandante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column escanteios_mandante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7164c6e9-fa32-4229-b69e-41dff673bb36
+		summarizeBy: sum
+		sourceColumn: escanteios_mandante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column chutes_visitante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6b44bf5d-3264-4f46-b961-8a62d8dfcbb5
+		summarizeBy: sum
+		sourceColumn: chutes_visitante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column chutes_alvo_visitante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 452f51e2-21a6-4a96-af8d-66fcf18d7861
+		summarizeBy: sum
+		sourceColumn: chutes_alvo_visitante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column posse_bola_visitante
+		dataType: double
+		isHidden
+		lineageTag: 8c1c7ac9-2e2a-4f66-8c76-c4377c43b854
+		summarizeBy: average
+		sourceColumn: posse_bola_visitante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column passes_visitante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f7c0b997-e244-46fd-84bc-7a11c7ce645f
+		summarizeBy: sum
+		sourceColumn: passes_visitante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column precisao_passes_visitante
+		dataType: double
+		isHidden
+		lineageTag: 89f8d0e0-2e90-4c6a-811e-2b2e91bb7929
+		summarizeBy: average
+		sourceColumn: precisao_passes_visitante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column faltas_visitante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ed1d76d5-ae49-419b-be9e-9332d64f8585
+		summarizeBy: sum
+		sourceColumn: faltas_visitante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column cartao_amarelo_visitante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3e347f30-05a3-48cd-9b00-db9a070fc562
+		summarizeBy: sum
+		sourceColumn: cartao_amarelo_visitante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column cartao_vermelho_visitante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9ab60c31-71d1-478b-81cc-d34112896681
+		summarizeBy: sum
+		sourceColumn: cartao_vermelho_visitante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column impedimentos_visitante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2808e000-0330-4676-8d5d-78ff095ad05c
+		summarizeBy: sum
+		sourceColumn: impedimentos_visitante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column escanteios_visitante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: cd92bfdf-2f51-4f24-ae24-db714dd58ed6
+		summarizeBy: sum
+		sourceColumn: escanteios_visitante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Partida = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(Web.Contents("https://raw.githubusercontent.com/mvbfontes/powerbi_datadriven_futebol/refs/heads/main/Dados/campeonato-brasileiro-full.csv"),[Delimiter=",", Columns=16, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"ID", Int64.Type}, {"rodata", Int64.Type}, {"data", type date}, {"hora", type time}, {"mandante", type text}, {"visitante", type text}, {"formacao_mandante", type text}, {"formacao_visitante", type text}, {"tecnico_mandante", type text}, {"tecnico_visitante", type text}, {"vencedor", type text}, {"arena", type text}, {"mandante_Placar", Int64.Type}, {"visitante_Placar", Int64.Type}, {"mandante_Estado", type text}, {"visitante_Estado", type text}}),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(#"Tipo Alterado",{"data", "ID", "rodata", "mandante", "visitante", "tecnico_mandante", "tecnico_visitante", "arena", "mandante_Placar", "visitante_Placar"}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Outras Colunas Removidas",{{"ID", "id_partida"}, {"rodata", "rodada"}, {"mandante_Placar", "gols_mandante"}, {"visitante_Placar", "gols_visitante"}}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Colunas Renomeadas", {"data"}, Período, {"Data"}, "Dim Tempo", JoinKind.LeftOuter),
+				    #"Dim Tempo Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Dim Tempo", {"Dateid"}, {"Dateid"}),
+				    #"Consultas Mescladas1" = Table.NestedJoin(#"Dim Tempo Expandido", {"mandante"}, Clube, {"Nome do Clube"}, "Dim Clube", JoinKind.LeftOuter),
+				    #"Dim Clube Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas1", "Dim Clube", {"id_clube"}, {"id_clube"}),
+				    #"Colunas Renomeadas1" = Table.RenameColumns(#"Dim Clube Expandido",{{"id_clube", "id_clube_mandante"}}),
+				    #"Consultas Mescladas2" = Table.NestedJoin(#"Colunas Renomeadas1", {"visitante"}, Clube, {"Nome do Clube"}, "Dim Clube", JoinKind.LeftOuter),
+				    #"Dim Clube Expandido1" = Table.ExpandTableColumn(#"Consultas Mescladas2", "Dim Clube", {"id_clube"}, {"id_clube"}),
+				    #"Colunas Renomeadas2" = Table.RenameColumns(#"Dim Clube Expandido1",{{"id_clube", "id_clube_visitante"}}),
+				    #"Consultas Mescladas3" = Table.NestedJoin(#"Colunas Renomeadas2", {"tecnico_mandante"}, Técnico, {"Nome do Técnico"}, "Dim Técnico", JoinKind.LeftOuter),
+				    #"Dim Técnico Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas3", "Dim Técnico", {"id_tecnico"}, {"id_tecnico"}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Dim Técnico Expandido",null,-1,Replacer.ReplaceValue,{"id_tecnico"}),
+				    #"Colunas Renomeadas3" = Table.RenameColumns(#"Valor Substituído",{{"id_tecnico", "id_tecnico_mandante"}}),
+				    #"Consultas Mescladas4" = Table.NestedJoin(#"Colunas Renomeadas3", {"tecnico_visitante"}, Técnico, {"Nome do Técnico"}, "Dim Técnico", JoinKind.LeftOuter),
+				    #"Dim Técnico Expandido1" = Table.ExpandTableColumn(#"Consultas Mescladas4", "Dim Técnico", {"id_tecnico"}, {"id_tecnico"}),
+				    #"Colunas Renomeadas4" = Table.RenameColumns(#"Dim Técnico Expandido1",{{"id_tecnico", "id_tecnico_visitante"}}),
+				    #"Valor Substituído1" = Table.ReplaceValue(#"Colunas Renomeadas4",null,-1,Replacer.ReplaceValue,{"id_tecnico_visitante"}),
+				    #"Consultas Mescladas5" = Table.NestedJoin(#"Valor Substituído1", {"arena"}, Estádio, {"Nome do Estádio"}, "Dim Estádio", JoinKind.LeftOuter),
+				    #"Dim Estádio Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas5", "Dim Estádio", {"id_estádio"}, {"id_estádio"}),
+				    #"Consultas Mescladas6" = Table.NestedJoin(#"Dim Estádio Expandido", {"id_partida", "mandante"}, #"campeonato-brasileiro-estatisticas-full", {"partida_id", "clube"}, "campeonato-brasileiro-estatisticas-full", JoinKind.LeftOuter),
+				    #"campeonato-brasileiro-estatisticas-full Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas6", "campeonato-brasileiro-estatisticas-full", {"chutes", "chutes_no_alvo", "posse_de_bola", "passes", "precisao_passes", "faltas", "cartao_amarelo", "cartao_vermelho", "impedimentos", "escanteios"}, {"campeonato-brasileiro-estatisticas-full.chutes", "campeonato-brasileiro-estatisticas-full.chutes_no_alvo", "campeonato-brasileiro-estatisticas-full.posse_de_bola", "campeonato-brasileiro-estatisticas-full.passes", "campeonato-brasileiro-estatisticas-full.precisao_passes", "campeonato-brasileiro-estatisticas-full.faltas", "campeonato-brasileiro-estatisticas-full.cartao_amarelo", "campeonato-brasileiro-estatisticas-full.cartao_vermelho", "campeonato-brasileiro-estatisticas-full.impedimentos", "campeonato-brasileiro-estatisticas-full.escanteios"}),
+				    #"Colunas Renomeadas5" = Table.RenameColumns(#"campeonato-brasileiro-estatisticas-full Expandido",{{"campeonato-brasileiro-estatisticas-full.chutes", "chutes_mandante"}, {"campeonato-brasileiro-estatisticas-full.chutes_no_alvo", "chutes_alvo_mandante"}, {"campeonato-brasileiro-estatisticas-full.posse_de_bola", "posse_bola_mandante"}, {"campeonato-brasileiro-estatisticas-full.passes", "passes_mandante"}, {"campeonato-brasileiro-estatisticas-full.precisao_passes", "precisao_passes_mandante"}, {"campeonato-brasileiro-estatisticas-full.faltas", "faltas_mandante"}, {"campeonato-brasileiro-estatisticas-full.cartao_amarelo", "cartao_amarelo_mandante"}, {"campeonato-brasileiro-estatisticas-full.cartao_vermelho", "cartao_vermelho_mandante"}, {"campeonato-brasileiro-estatisticas-full.impedimentos", "impedimentos_mandante"}, {"campeonato-brasileiro-estatisticas-full.escanteios", "escanteios_mandante"}}),
+				    #"Consultas Mescladas7" = Table.NestedJoin(#"Colunas Renomeadas5", {"id_partida", "visitante"}, #"campeonato-brasileiro-estatisticas-full", {"partida_id", "clube"}, "campeonato-brasileiro-estatisticas-full", JoinKind.LeftOuter),
+				    #"campeonato-brasileiro-estatisticas-full Expandido1" = Table.ExpandTableColumn(#"Consultas Mescladas7", "campeonato-brasileiro-estatisticas-full", {"chutes", "chutes_no_alvo", "posse_de_bola", "passes", "precisao_passes", "faltas", "cartao_amarelo", "cartao_vermelho", "impedimentos", "escanteios"}, {"campeonato-brasileiro-estatisticas-full.chutes", "campeonato-brasileiro-estatisticas-full.chutes_no_alvo", "campeonato-brasileiro-estatisticas-full.posse_de_bola", "campeonato-brasileiro-estatisticas-full.passes", "campeonato-brasileiro-estatisticas-full.precisao_passes", "campeonato-brasileiro-estatisticas-full.faltas", "campeonato-brasileiro-estatisticas-full.cartao_amarelo", "campeonato-brasileiro-estatisticas-full.cartao_vermelho", "campeonato-brasileiro-estatisticas-full.impedimentos", "campeonato-brasileiro-estatisticas-full.escanteios"}),
+				    #"Colunas Renomeadas6" = Table.RenameColumns(#"campeonato-brasileiro-estatisticas-full Expandido1",{{"campeonato-brasileiro-estatisticas-full.chutes", "chutes_visitante"}, {"campeonato-brasileiro-estatisticas-full.chutes_no_alvo", "chutes_alvo_visitante"}, {"campeonato-brasileiro-estatisticas-full.posse_de_bola", "posse_bola_visitante"}, {"campeonato-brasileiro-estatisticas-full.passes", "passes_visitante"}, {"campeonato-brasileiro-estatisticas-full.precisao_passes", "precisao_passes_visitante"}, {"campeonato-brasileiro-estatisticas-full.faltas", "faltas_visitante"}, {"campeonato-brasileiro-estatisticas-full.cartao_amarelo", "cartao_amarelo_visitante"}, {"campeonato-brasileiro-estatisticas-full.cartao_vermelho", "cartao_vermelho_visitante"}, {"campeonato-brasileiro-estatisticas-full.impedimentos", "impedimentos_visitante"}, {"campeonato-brasileiro-estatisticas-full.escanteios", "escanteios_visitante"}}),
+				    #"Outras Colunas Removidas1" = Table.SelectColumns(#"Colunas Renomeadas6",{"id_partida", "rodada", "gols_mandante", "gols_visitante", "Dateid", "id_clube_mandante", "id_clube_visitante", "id_tecnico_mandante", "id_tecnico_visitante", "id_estádio", "chutes_mandante", "chutes_alvo_mandante", "posse_bola_mandante", "passes_mandante", "precisao_passes_mandante", "faltas_mandante", "cartao_amarelo_mandante", "cartao_vermelho_mandante", "impedimentos_mandante", "escanteios_mandante", "chutes_visitante", "chutes_alvo_visitante", "posse_bola_visitante", "passes_visitante", "precisao_passes_visitante", "faltas_visitante", "cartao_amarelo_visitante", "cartao_vermelho_visitante", "impedimentos_visitante", "escanteios_visitante"}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Outras Colunas Removidas1", "pontos_mandante", each if [gols_mandante] > [gols_visitante] then 3 else if [gols_mandante] = [gols_visitante] then 1 else if [gols_mandante] < [gols_visitante] then 0 else null),
+				    #"Personalização Adicionada1" = Table.AddColumn(#"Personalização Adicionada", "pontos_visitante", each if [gols_mandante] < [gols_visitante] then 3 else if [gols_mandante] = [gols_visitante] then 1 else if [gols_mandante] > [gols_visitante] then 0 else null),
+				    #"Personalização Adicionada2" = Table.AddColumn(#"Personalização Adicionada1", "resultado", each if [gols_mandante]<[gols_visitante] then Number.ToText([gols_visitante])&"x"&Number.ToText([gols_mandante]) else  Number.ToText([gols_mandante])&"x"&Number.ToText([gols_visitante])),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Personalização Adicionada2",{{"pontos_mandante", Int64.Type}, {"pontos_visitante", Int64.Type}}),
+				    #"Valor Substituído2" = Table.ReplaceValue(#"Tipo Alterado1","None","",Replacer.ReplaceText,{"posse_bola_mandante"}),
+				    #"Tipo Alterado com Localidade" = Table.TransformColumnTypes(#"Valor Substituído2", {{"posse_bola_mandante", Percentage.Type}}, "pt-BR"),
+				    #"Valor Substituído3" = Table.ReplaceValue(#"Tipo Alterado com Localidade","None","",Replacer.ReplaceText,{"precisao_passes_mandante"}),
+				    #"Tipo Alterado com Localidade1" = Table.TransformColumnTypes(#"Valor Substituído3", {{"precisao_passes_mandante", Percentage.Type}}, "pt-BR"),
+				    #"Valor Substituído4" = Table.ReplaceValue(#"Tipo Alterado com Localidade1","None","",Replacer.ReplaceText,{"posse_bola_visitante"}),
+				    #"Tipo Alterado com Localidade2" = Table.TransformColumnTypes(#"Valor Substituído4", {{"posse_bola_visitante", Percentage.Type}}, "pt-BR"),
+				    #"Valor Substituído5" = Table.ReplaceValue(#"Tipo Alterado com Localidade2","None","",Replacer.ReplaceText,{"precisao_passes_visitante"}),
+				    #"Tipo Alterado com Localidade3" = Table.TransformColumnTypes(#"Valor Substituído5", {{"precisao_passes_visitante", Percentage.Type}}, "pt-BR")
+				in
+				    #"Tipo Alterado com Localidade3"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

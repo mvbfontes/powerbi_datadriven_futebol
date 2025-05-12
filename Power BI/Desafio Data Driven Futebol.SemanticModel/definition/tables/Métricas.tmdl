@@ -1,0 +1,1368 @@
+table Métricas
+	lineageTag: ae990b45-3c95-4215-9eba-caf808b0dd77
+
+	measure 'Gols Feitos Visitante' = CALCULATE(SUM('Partida'[gols_visitante]),USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube]))
+		formatString: #,0
+		displayFolder: Clube\Gols\Gols Feitos
+		lineageTag: 23c3979b-6fc6-400b-8c31-574818a420e6
+
+	measure 'Gols Feitos Mandante' = SUM('Partida'[gols_mandante])
+		formatString: #,0
+		displayFolder: Clube\Gols\Gols Feitos
+		lineageTag: 86db2673-4214-48bb-bcc7-f1bbcadf51dc
+
+	measure 'Gols Feitos' = [Gols Feitos Mandante] + [Gols Feitos Visitante]
+		formatString: #,0
+		displayFolder: Clube\Gols\Gols Feitos
+		lineageTag: 119e572e-5a80-41ab-8107-aed2633b10da
+
+	measure 'Pontos Mandante' = SUM('Partida'[pontos_mandante])
+		formatString: #,0
+		displayFolder: Clube\Pontos
+		lineageTag: 35a04f1e-87c5-4659-84cc-ffd00ae13e4c
+
+	measure 'Pontos Visitante' = CALCULATE(SUM('Partida'[pontos_visitante]),USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube]))
+		formatString: #,0
+		displayFolder: Clube\Pontos
+		lineageTag: a0bd6287-3df3-4d5f-9e4d-7616a3250ac1
+
+	measure Pontos = [Pontos Mandante] + [Pontos Visitante]
+		formatString: #,0
+		displayFolder: Clube\Pontos
+		lineageTag: 389677ae-7cbc-4f2b-ae6e-720314658ab9
+
+	measure 'Vitória Mandante' = COALESCE(CALCULATE(COUNTROWS('Partida'),'Partida'[pontos_mandante]=3),0)
+		formatString: 0
+		displayFolder: Clube\Vitórias
+		lineageTag: 2a960fe2-7370-409e-b1f2-bb15d1a88ac5
+
+	measure 'Vitória Visitante' = COALESCE(CALCULATE(COUNTROWS('Partida'),'Partida'[pontos_visitante]=3,USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube])),0)
+		formatString: 0
+		displayFolder: Clube\Vitórias
+		lineageTag: f4aa0764-c287-4347-809e-019ce35d465b
+
+	measure Vitórias = [Vitória Mandante]+[Vitória Visitante]
+		formatString: 0
+		displayFolder: Clube\Vitórias
+		lineageTag: ae9f95af-5a14-4045-ad0d-bcff0024d468
+
+	measure 'Empate Mandante' = COALESCE(CALCULATE(COUNTROWS('Partida'),'Partida'[pontos_mandante]=1),0)
+		formatString: 0
+		displayFolder: Clube\Empates
+		lineageTag: 9ecefc04-761b-4ab4-891b-0c14c3183fd9
+
+	measure 'Empate Visitante' = COALESCE(CALCULATE(COUNTROWS('Partida'),'Partida'[pontos_visitante]=1,USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube])),0)
+		formatString: 0
+		displayFolder: Clube\Empates
+		lineageTag: 321f6172-d40a-42fd-9ba8-a8536d9a4585
+
+	measure Empates = IF(HASONEVALUE('Clube'[Nome do Clube]),[Empate Mandante] + [Empate Visitante],CALCULATE(COUNTROWS('Partida'),'Partida'[pontos_mandante]=1))
+		formatString: 0
+		displayFolder: Clube\Empates
+		lineageTag: a72b9f84-f63d-43eb-8bee-b7e718d47c3d
+
+	measure 'Derrota Mandante' = COALESCE(CALCULATE(COUNTROWS('Partida'),'Partida'[pontos_mandante]=0),0)
+		formatString: 0
+		displayFolder: Clube\Derrotas
+		lineageTag: 0e8ea906-44b4-404f-af97-8227aa1dfa43
+
+	measure 'Derrota Visitante' = COALESCE(CALCULATE(COUNTROWS('Partida'),'Partida'[pontos_visitante]=0,USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube])),0)
+		formatString: 0
+		displayFolder: Clube\Derrotas
+		lineageTag: 53d13550-baf1-4565-b2e3-dc31cc2deb68
+
+	measure Derrotas = [Derrota Mandante] + [Derrota Visitante]
+		formatString: 0
+		displayFolder: Clube\Derrotas
+		lineageTag: ce7f70ec-3624-49ee-9426-0e4994428421
+
+	measure 'Gols Sofridos Mandante' = SUM('Partida'[gols_visitante])
+		formatString: #,0
+		displayFolder: Clube\Gols\Gols Sofridos
+		lineageTag: 09f3e415-1d4f-487c-a8c4-232c4099775f
+
+	measure 'Gols Sofridos Visitante' = CALCULATE(SUM('Partida'[gols_mandante]),USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube]))
+		formatString: #,0
+		displayFolder: Clube\Gols\Gols Sofridos
+		lineageTag: 346db01e-4ac2-4ee1-a6db-1817693be7ee
+
+	measure 'Gols Sofridos' = [Gols Sofridos Mandante]+[Gols Sofridos Visitante]
+		formatString: #,0
+		displayFolder: Clube\Gols\Gols Sofridos
+		lineageTag: 4b7c1809-4d47-4a5c-9324-e6df149f91a3
+
+	measure 'Jogos Mandante' = DISTINCTCOUNT('Partida'[id_partida])
+		formatString: 0
+		displayFolder: Clube\Jogos
+		lineageTag: da16ea32-1aa8-49eb-b778-04f5f37890bc
+
+	measure 'Jogos Visitante' = CALCULATE(DISTINCTCOUNT('Partida'[id_partida]),USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube]))
+		formatString: 0
+		displayFolder: Clube\Jogos
+		lineageTag: f8fa1524-1891-45af-af27-44fbfc755f14
+
+	measure Jogos = IF(HASONEVALUE('Clube'[Nome do Clube]),[Jogos Mandante] + [Jogos Visitante],DISTINCTCOUNT('Partida'[id_partida]))
+		formatString: 0
+		displayFolder: Clube\Jogos
+		lineageTag: 39789305-0e5c-4c3e-b9ba-f96544576ca4
+
+	measure Aproveitamento = DIVIDE([Pontos],[Jogos]*3)
+		formatString: 0%;-0%;0%
+		displayFolder: Clube\Aproveitamento
+		lineageTag: e6b3e0f0-c882-4531-bf10-adf814a77ab1
+
+	measure 'Gols Jogador' = IF(HASONEVALUE('Jogador'[Nome do Jogador]),CALCULATE(COUNTROWS('Fato Gol'),'Fato Gol'[tipo_de_gol]<>"Gol contra"),COUNTROWS('Fato Gol'))
+		formatString: 0
+		displayFolder: Jogador
+		lineageTag: 9a1982e9-f000-42b8-aa01-7f9cd88ededc
+
+	measure 'Cartões Jogador' = COUNTROWS('Fato Disciplina')
+		formatString: 0
+		displayFolder: Jogador
+		lineageTag: 3d697fa7-0040-43f0-91ef-630bf60fe1d6
+
+	measure 'Cartões Amarelos Jogador' = COALESCE(CALCULATE(COUNTROWS('Fato Disciplina'),'Fato Disciplina'[cartao]="Amarelo"),0)
+		formatString: 0
+		displayFolder: Jogador
+		lineageTag: 66c61faf-679a-407e-a9bf-fbba52dd72a9
+
+	measure 'Cartões Vermelhos Jogador' = COALESCE(CALCULATE(COUNTROWS('Fato Disciplina'),'Fato Disciplina'[cartao]="Vermelho"),0)
+		formatString: 0
+		displayFolder: Jogador
+		lineageTag: 4f721602-90b0-4e25-9143-c672838dfc10
+
+	measure 'Média de Gols' = DIVIDE([Gols Feitos],[Jogos])
+		formatString: #,0.00
+		displayFolder: Clube\Gols\Gols Feitos
+		lineageTag: 28aebbc2-3e77-458a-b0aa-d2b2ec9b94e6
+
+	measure '% Vitórias Mandante' = DIVIDE([Vitória Mandante],[Jogos])
+		formatString: 0%;-0%;0%
+		displayFolder: Clube\Vitórias
+		lineageTag: 7369caa0-37ae-4471-ae07-98c7acb5349d
+
+	measure '% Vitórias Visitante' = DIVIDE([Vitória Visitante],[Jogos])
+		formatString: 0%;-0%;0%
+		displayFolder: Clube\Vitórias
+		lineageTag: 19f57ae4-0cd6-4514-b00c-bb09359fc99b
+
+	measure '% Empates' = DIVIDE([Empates],[Jogos])
+		formatString: 0%;-0%;0%
+		displayFolder: Clube\Empates
+		lineageTag: 71520174-76ef-4f06-bcf3-977a6f21d7b7
+
+	measure 'Quantidade Resultados' = COUNT('Partida'[resultado])
+		formatString: 0
+		displayFolder: Clube\Desempenho
+		lineageTag: b72c8e3c-5e20-4f34-937f-ba0feca6dc7d
+
+	measure 'Média de Gols Anterior' = CALCULATE([Média de Gols],'Período'[Edição do campeonato]=SELECTEDVALUE('Período'[Edição do campeonato])-1)
+		formatString: #,0.00
+		displayFolder: Clube\Gols\Gols Feitos
+		lineageTag: 06bf4174-77d2-4588-aeab-be43f9ea5805
+
+	measure 'Dif Média de Gols' = IF([Média de Gols Anterior]=BLANK(),BLANK(),[Média de Gols]-[Média de Gols Anterior])
+		formatString: #,0.00
+		displayFolder: Clube\Gols\Gols Feitos
+		lineageTag: 8f6bfcc0-2d6c-4c35-b565-f7ca8e6e467e
+
+	measure 'Saldo de Gols' = [Gols Feitos] - [Gols Sofridos]
+		formatString: 0
+		displayFolder: Clube\Gols\Gols Feitos
+		lineageTag: c777f238-d67f-48b2-af91-5c4fbab99d12
+
+	measure 'Aproveitamento Mandante' = DIVIDE([Pontos Mandante],[Jogos Mandante]*3)
+		formatString: 0%;-0%;0%
+		displayFolder: Clube\Aproveitamento
+		lineageTag: 7adabaf7-af08-4e3b-8b51-68bc24393486
+
+	measure 'Aproveitamento Visitante' = DIVIDE([Pontos Visitante],[Jogos Visitante]*3)
+		formatString: 0%;-0%;0%
+		displayFolder: Clube\Aproveitamento
+		lineageTag: 45ed5982-2fb3-49c6-816e-c5c75956e71e
+
+	measure 'Pontos Acumulados' = ```
+			
+			CALCULATE(
+			    [Pontos],
+			    FILTER(
+			        ALL('Período'[Data]),
+			        'Período'[Data] <= MAX('Período'[Data])
+			    )
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: Clube\Pontos
+		lineageTag: 3da91f3d-9bb1-4434-9fac-410d556ec73b
+
+	measure 'Aproveitamento Acumulado' = ```
+			
+			CALCULATE(
+			    [Aproveitamento]*100,
+			    FILTER(
+			        ALL('Período'[Data]),
+			        'Período'[Data] <= MAX('Período'[Data])
+			    )
+			)
+			
+			```
+		formatString: #,0%;-#,0%;#,0%
+		displayFolder: Clube\Aproveitamento
+		lineageTag: a2c10af2-1fc7-49dc-b2a3-5e67025a9d89
+
+	measure 'Cartões Amarelos Mandante' = SUM('Partida'[cartao_amarelo_mandante])
+		formatString: #,0
+		displayFolder: Clube\Cartões
+		lineageTag: 670804d7-2e12-404a-922a-85b9badcdded
+
+	measure 'Cartões Amarelos Visitante' = CALCULATE(SUM('Partida'[cartao_amarelo_visitante]),USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube]))
+		formatString: #,0
+		displayFolder: Clube\Cartões
+		lineageTag: a4a79831-fd69-4a94-9965-9245da779b77
+
+	measure 'Cartões Amarelos' = [Cartões Amarelos Mandante]+[Cartões Amarelos Visitante]
+		formatString: #,0
+		displayFolder: Clube\Cartões
+		lineageTag: cc3419ca-447e-41a4-9cfa-cfef55a9a5da
+
+	measure 'Cartões Vermelhos Mandante' = SUM('Partida'[cartao_vermelho_mandante])
+		formatString: #,0
+		displayFolder: Clube\Cartões
+		lineageTag: 2966668e-1479-427d-8ea1-62ceb792d2d7
+
+	measure 'Cartões Vermelhos Visitante' = CALCULATE(SUM('Partida'[cartao_vermelho_visitante]),USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube]))
+		formatString: #,0
+		displayFolder: Clube\Cartões
+		lineageTag: 99694692-ab38-40b7-a0df-691323b13eab
+
+	measure 'Cartões Vermelhos' = [Cartões Vermelhos Mandante]+[Cartões Vermelhos Visitante]
+		formatString: #,0
+		displayFolder: Clube\Cartões
+		lineageTag: aab989cf-d100-47d2-b3ca-d2c0c52d93a0
+
+	measure 'Chutes Mandante' = SUM('Partida'[chutes_mandante])
+		formatString: #,0
+		displayFolder: Clube\Chutes\Chutes Feitos
+		lineageTag: 7df6de5a-5b7e-41e4-b6cb-5bc72f703bee
+
+	measure 'Chutes Visitante' = CALCULATE(SUM('Partida'[chutes_visitante]),USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube]))
+		formatString: #,0
+		displayFolder: Clube\Chutes\Chutes Feitos
+		lineageTag: d430fe6d-68a7-4d7c-b1e2-30cffd0af401
+
+	measure Chutes = [Chutes Mandante]+[Chutes Visitante]
+		formatString: #,0
+		displayFolder: Clube\Chutes\Chutes Feitos
+		lineageTag: 408d1b33-b98c-445e-b6c8-55a28490aa2c
+
+	measure 'Chutes Alvo Mandante' = SUM('Partida'[chutes_alvo_mandante])
+		formatString: #,0
+		displayFolder: Clube\Chutes\Chutes Feitos
+		lineageTag: 8a83f5e1-5fdc-4e08-9e15-896cdbfbfb03
+
+	measure 'Chutes Alvo Visitante' = CALCULATE(SUM('Partida'[chutes_alvo_visitante]),USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube]))
+		formatString: #,0
+		displayFolder: Clube\Chutes\Chutes Feitos
+		lineageTag: 33f08526-b7fe-4881-b0d5-62b511b67ec7
+
+	measure 'Chutes Alvo' = [Chutes Alvo Mandante]+[Chutes Alvo Visitante]
+		formatString: #,0
+		displayFolder: Clube\Chutes\Chutes Feitos
+		lineageTag: d6bc834a-fa32-415d-8e31-1aea9cf48aed
+
+	measure 'Escanteios Mandante' = SUM('Partida'[escanteios_mandante])
+		formatString: #,0
+		displayFolder: Clube\Escanteios
+		lineageTag: b6ab00ec-298a-4a63-96ef-db2af604a817
+
+	measure 'Escanteios Visitante' = CALCULATE(SUM('Partida'[escanteios_visitante]),USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube]))
+		formatString: #,0
+		displayFolder: Clube\Escanteios
+		lineageTag: c1366e28-f182-4d69-9afb-3ed27d097c6a
+
+	measure Escanteios = [Escanteios Mandante]+[Escanteios Visitante]
+		formatString: #,0
+		displayFolder: Clube\Escanteios
+		lineageTag: ad43d6e4-0c01-4b8e-a079-9287d53c3b76
+
+	measure 'Faltas Mandante' = SUM('Partida'[faltas_mandante])
+		formatString: 0
+		displayFolder: Clube\Faltas
+		lineageTag: 94bd4d3b-e311-46be-abf1-2ea0d3e9bba7
+
+	measure 'Faltas Visitante' = CALCULATE(SUM('Partida'[faltas_visitante]),USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube]))
+		formatString: 0
+		displayFolder: Clube\Faltas
+		lineageTag: 669f4f51-12d1-4bfb-a0ad-c8eba7822a0a
+
+	measure Faltas = [Faltas Mandante]+[Faltas Visitante]
+		formatString: 0
+		displayFolder: Clube\Faltas
+		lineageTag: 4fbf87c7-c241-42c4-b83f-1645fad558b3
+
+	measure 'Impedimentos Mandante' = SUM('Partida'[impedimentos_mandante])
+		formatString: #,0
+		displayFolder: Clube\Impedimentos
+		lineageTag: 7e9129dd-4a2d-49db-9fb2-f46fc95436f5
+
+	measure 'Impedimentos Visitante' = CALCULATE(SUM('Partida'[impedimentos_visitante]),USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube]))
+		formatString: #,0
+		displayFolder: Clube\Impedimentos
+		lineageTag: e62ca794-c23f-4439-9952-d4fdc65ff4da
+
+	measure Impedimentos = [Impedimentos Mandante]+[Impedimentos Visitante]
+		formatString: #,0
+		displayFolder: Clube\Impedimentos
+		lineageTag: 1729b6db-056b-456d-9d74-8e7dc50e01dc
+
+	measure 'Passes Mandante' = SUM('Partida'[passes_mandante])
+		formatString: #,0
+		displayFolder: Clube\Passes
+		lineageTag: c79ac0af-e34f-4c38-8ac8-c7e635f47fa1
+
+	measure 'Passes Visitante' = CALCULATE(SUM('Partida'[passes_visitante]),USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube]))
+		formatString: #,0
+		displayFolder: Clube\Passes
+		lineageTag: 17071605-5d28-446d-bcaf-af945dcaae7d
+
+	measure Passes = [Passes Mandante]+[Passes Mandante]
+		formatString: #,0
+		displayFolder: Clube\Passes
+		lineageTag: a772464e-1b02-45a8-9bd0-d221f15a4e39
+
+	measure 'Posse de Bola Mandante' = AVERAGE('Partida'[posse_bola_mandante])
+		formatString: 0%;-0%;0%
+		displayFolder: Clube\Posse de Bola
+		lineageTag: 62c11e3d-a276-4fcf-8e37-f9070e30122b
+
+	measure 'Posse de Bola Visitante' = CALCULATE(AVERAGE('Partida'[posse_bola_visitante]),USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube]))
+		formatString: 0%;-0%;0%
+		displayFolder: Clube\Posse de Bola
+		lineageTag: a981a8c3-154d-4e6d-927d-1c5ae5f0644b
+
+	measure 'Posse de Bola' = ([Posse de Bola Mandante]+[Posse de Bola Visitante])/2
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Clube\Posse de Bola
+		lineageTag: f3b095d8-f27c-4ec4-bf00-54a7a596d800
+
+	measure 'Precisão Passes Mandante' = AVERAGE('Partida'[precisao_passes_mandante])
+		formatString: 0%;-0%;0%
+		displayFolder: Clube\Passes
+		lineageTag: a506140a-cfe6-4c45-8fa4-3e64174ce3cc
+
+	measure 'Precisão Passes Visitante' = CALCULATE(AVERAGE('Partida'[precisao_passes_visitante]),USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube]))
+		formatString: 0%;-0%;0%
+		displayFolder: Clube\Passes
+		lineageTag: c55ee84a-af28-4e61-a052-e466aa5776a6
+
+	measure 'Precisão Passes' = ([Precisão Passes Mandante]+[Precisão Passes Visitante])/2
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Clube\Passes
+		lineageTag: fa8680c1-fa18-4ca3-82eb-781d0bab6f56
+
+	measure Classificação = ```
+			
+			VAR CriterioRanking = [Pontos]*10000 + [Vitórias] * 1000 + [Saldo de Gols]
+			VAR ResultadoRanking = RANKX(ALL(Clube[Nome do Clube],Clube[Escudo]),[Pontos]*10000 + [Vitórias] * 1000 + [Saldo de Gols], , DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking) || CriterioRanking = 0,
+			    BLANK(),
+			    ResultadoRanking
+			)
+			```
+		formatString: 0
+		displayFolder: Clube\Desempenho
+		lineageTag: fad60016-bf38-4478-adb4-10ba8e0e67df
+
+	measure 'Format Maior Aproveitamento' = VAR MaxValor = MAXX(ALL(Clube),[Aproveitamento]) RETURN IF([Aproveitamento] = MaxValor,"#ABD1B5")
+		displayFolder: Formatacao
+		lineageTag: 0b66ee93-a074-44c9-9fc2-e3f66c865380
+
+	measure 'Format Maior Aproveitamento Mandante' = VAR MaxValor = MAXX(ALL(Clube),[Aproveitamento Mandante]) RETURN IF([Aproveitamento Mandante] = MaxValor,"#ABD1B5")
+		displayFolder: Formatacao
+		lineageTag: ff5edb6e-6202-4e9f-b307-bde2ba6acf8f
+
+	measure 'Format Maior Aproveitamento Visitante' = VAR MaxValor = MAXX(ALL(Clube),[Aproveitamento Visitante]) RETURN IF([Aproveitamento Visitante] = MaxValor,"#ABD1B5")
+		displayFolder: Formatacao
+		lineageTag: 862615f3-fed4-4bfb-bddf-e45c225c0adb
+
+	measure 'Format Melhor Ataque' = VAR MaxValor = MAXX(ALL(Clube),[Gols Feitos]) RETURN IF([Gols Feitos] = MaxValor,"#ABD1B5")
+		displayFolder: Formatacao
+		lineageTag: 4ebe83b3-ed92-436a-8bcb-515f9810bad1
+
+	measure 'Format Melhor Defesa' = VAR MinValor = MINX(ALL(Clube),[Gols Sofridos]) RETURN IF([Gols Sofridos] = MinValor,"#ABD1B5")
+		displayFolder: Formatacao
+		lineageTag: 0f4bca33-7be8-41f2-a36d-47571e40c382
+
+	measure Equipes = CALCULATE(DISTINCTCOUNT('Partida'[id_clube_mandante]),ALL(Clube))
+		formatString: 0
+		displayFolder: Campeonato
+		lineageTag: e508ebf8-cb9b-436e-8f9f-8d111c2f8c5a
+
+	measure 'Format Classificacao' = ```
+			IF([Classificação] = 1,"#A3DDB3",IF([Classificação]>[Equipes]-4,"#F0A787","#E6E6E6"))
+			
+			    
+			```
+		displayFolder: Formatacao
+		lineageTag: e2889c95-b182-4d23-b476-89acddd08de7
+
+	measure 'Seta Evol Média de Gols' = IF([Dif Média de Gols]>0,UNICHAR(9206),IF([Dif Média de Gols]<0,UNICHAR(9207),""))
+		displayFolder: Formatacao
+		lineageTag: efd1d422-7911-486f-a8e4-fa13a4afb5a7
+
+	measure Artilharia = ```
+			
+			VAR CriterioRanking = ([Gols Jogador]*10000)+[Desempate Jogador]
+			VAR ResultadoRanking = RANKX(ALL(Jogador),([Gols Jogador]*10000)+[Desempate Jogador],,DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    ResultadoRanking
+			)
+			```
+		formatString: 0
+		displayFolder: Jogador
+		lineageTag: c9c28948-f532-41c5-a4dc-7f47dcaa06b7
+
+	measure 'Desempate Jogador' = MAX(Jogador[id_jogador])
+		formatString: 0
+		displayFolder: Jogador
+		lineageTag: 6c94cbb4-a704-4613-9bea-ad20ac41a960
+
+	measure 'Data Final' = LOOKUPVALUE('Período'[Data], 'Período'[DateId], MAX(Partida[DateId]))
+		formatString: Short Date
+		displayFolder: Campeonato
+		lineageTag: 3088f4a5-d9ad-4361-bf20-ba9e7e28d47a
+
+	measure Rodadas = MAX(Partida[rodada])
+		formatString: 0
+		displayFolder: Campeonato
+		lineageTag: 59c115cd-24c4-49ad-b715-76a6237b2cc2
+
+	measure 'Chutes por Jogo' = IF([Chutes]=BLANK(),BLANK(),DIVIDE([Chutes],[Jogos],BLANK()))
+		formatString: #,0.0
+		displayFolder: Clube\Chutes\Chutes Feitos
+		lineageTag: f505d86f-477b-41f9-984c-218f6db96de3
+
+	measure 'Rank Chutes por Jogo' = ```
+			VAR CriterioRanking = [Chutes por Jogo]
+			VAR ResultadoRanking = RANKX(ALL(Clube),[Chutes por Jogo], , DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    ResultadoRanking
+			)
+			    
+			```
+		formatString: 0
+		displayFolder: Clube\Chutes\Chutes Feitos
+		lineageTag: fbd17d4f-cee1-4103-aa01-65b2e1170a8a
+
+	measure 'Cartões Amarelos por Jogo' = ```
+			IF([Jogos]=BLANK(),BLANK(),DIVIDE([Cartões Amarelos],[Jogos],0))
+			
+			    
+			```
+		formatString: #,0.00
+		displayFolder: Clube\Cartões
+		lineageTag: db4ce3f8-abd3-4bcb-ad94-d7901de0ef3e
+
+	measure 'Rank Cartões Amarelos por Jogo' = ```
+			VAR CriterioRanking = [Cartões Amarelos por Jogo]
+			VAR ResultadoRanking = RANKX(FILTER(ALL(Clube), NOT ISBLANK([Cartões Amarelos por Jogo])),[Cartões Amarelos por Jogo], , ASC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    ResultadoRanking
+			)
+			    
+			```
+		formatString: 0
+		displayFolder: Clube\Cartões
+		lineageTag: cedfc2e3-cbb9-491e-bf7f-c1cd628cf9dd
+
+	measure 'Cartões Vermelhos por Jogo' = IF([Jogos]=BLANK(),BLANK(),DIVIDE([Cartões Vermelhos],[Jogos],0))
+		displayFolder: Clube\Cartões
+		lineageTag: b4dcefa7-35b2-4749-9fbf-3180ed81f3a4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Rank Cartões Vermelhos por Jogo' = ```
+			VAR CriterioRanking = [Cartões Vermelhos por Jogo]
+			VAR ResultadoRanking = RANKX(FILTER(ALL(Clube), NOT ISBLANK([Cartões Vermelhos por Jogo])),[Cartões Vermelhos por Jogo], , ASC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    ResultadoRanking
+			)
+			    
+			```
+		formatString: 0
+		displayFolder: Clube\Cartões
+		lineageTag: c6abc2ff-1553-44da-9567-0419c9273ce3
+
+	measure 'Escanteios por Jogo' = ```
+			IF([Escanteios]=BLANK(),BLANK(),DIVIDE([Escanteios],[Jogos],BLANK()))
+			    
+			```
+		displayFolder: Clube\Escanteios
+		lineageTag: 6103ec42-3806-4d73-81fc-aaf068bc18d1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Rank Escanteios por Jogo' = ```
+			VAR CriterioRanking = [Escanteios por Jogo]
+			VAR ResultadoRanking = RANKX(ALL(Clube),[Escanteios por Jogo], , DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    ResultadoRanking
+			)
+			    
+			```
+		formatString: 0
+		displayFolder: Clube\Escanteios
+		lineageTag: 6e0486ec-d7b9-4860-901d-1227e04416c7
+
+	measure 'Faltas Cometidas por Jogo' = ```
+			IF([Faltas]=BLANK(),BLANK(),DIVIDE([Faltas],[Jogos],BLANK()))
+			 
+			     
+			```
+		formatString: #,0.0
+		displayFolder: Clube\Faltas
+		lineageTag: 59c16cb0-91be-4634-8a56-126eb2011931
+
+	measure 'Rank Faltas Cometidas por Jogo' = ```
+			VAR CriterioRanking = [Faltas Cometidas por Jogo]
+			VAR ResultadoRanking = RANKX(FILTER(ALL(Clube), NOT ISBLANK([Faltas Cometidas por Jogo])),[Faltas Cometidas por Jogo], , ASC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    ResultadoRanking
+			)
+			    
+			```
+		formatString: 0
+		displayFolder: Clube\Faltas
+		lineageTag: c91cd55b-66d2-48a2-944b-017c1403bfb6
+
+	measure 'Rank Média de Gols' = ```
+			VAR CriterioRanking = [Média de Gols]
+			VAR ResultadoRanking = RANKX(ALL(Clube),[Média de Gols], , DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    ResultadoRanking
+			)
+			    
+			```
+		formatString: 0
+		displayFolder: Clube\Gols\Gols Feitos
+		lineageTag: fe5e430f-58c7-4932-9d64-ab7da80e09ce
+
+	measure 'Gols Sofridos por Jogo' = ```
+			IF([Gols Sofridos]=BLANK(),BLANK(),DIVIDE([Gols Sofridos],[Jogos],BLANK()))
+			
+			
+			```
+		displayFolder: Clube\Gols\Gols Sofridos
+		lineageTag: e152cc7a-c0f9-43cd-8127-8a8d2e81c96c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Rank Gols Sofridos por Jogo' = ```
+			VAR CriterioRanking = [Gols Sofridos por Jogo]
+			VAR ResultadoRanking = RANKX(FILTER(ALL(Clube), NOT ISBLANK([Gols Sofridos por Jogo])),[Gols Sofridos por Jogo], , ASC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    ResultadoRanking
+			)
+			    
+			```
+		formatString: 0
+		displayFolder: Clube\Gols\Gols Sofridos
+		lineageTag: 5f8543ce-6893-4b6f-80a0-b9286b901bb0
+
+	measure 'Impedimentos por Jogo' = ```
+			IF([Impedimentos]=BLANK(),BLANK(),DIVIDE([Impedimentos],[Jogos],BLANK()))
+			    
+			```
+		displayFolder: Clube\Impedimentos
+		lineageTag: 1ec1d5e0-9220-4f03-ae39-27a101914b7c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Rank Impedimentos por Jogo' = ```
+			VAR CriterioRanking = [Impedimentos por Jogo]
+			VAR ResultadoRanking = RANKX(FILTER(ALL(Clube), NOT ISBLANK([Impedimentos por Jogo])),[Impedimentos por Jogo], , ASC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    ResultadoRanking
+			)
+			    
+			```
+		formatString: 0
+		displayFolder: Clube\Impedimentos
+		lineageTag: c37e20eb-7aba-47ee-aeb0-eb25ed943ed5
+
+	measure 'Passes por Jogo' = ```
+			IF([Passes]=BLANK(),BLANK(),DIVIDE([Passes],[Jogos],BLANK()))
+			
+			
+			```
+		formatString: #,0
+		displayFolder: Clube\Passes
+		lineageTag: 7b15396a-b7b9-41d3-8a4b-248d00ad77f4
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Rank Passes por Jogo' = ```
+			VAR CriterioRanking = [Passes por Jogo]
+			VAR ResultadoRanking = RANKX(ALL(Clube),[Passes por Jogo], , DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    ResultadoRanking
+			)
+			    
+			```
+		formatString: 0
+		displayFolder: Clube\Passes
+		lineageTag: a494254c-3a0d-463a-bd77-e3b622190bfb
+
+	measure 'Rank Posse de Bola' = ```
+			VAR CriterioRanking = [Posse de Bola]
+			VAR ResultadoRanking = RANKX(ALL(Clube),[Posse de Bola], , DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    ResultadoRanking
+			)
+			    
+			```
+		formatString: 0
+		displayFolder: Clube\Posse de Bola
+		lineageTag: 7d15c45b-e6dc-4296-a25f-e93c265f16f4
+
+	measure 'Rank Precisão Passes' = ```
+			VAR CriterioRanking = [Precisão Passes]
+			VAR ResultadoRanking = RANKX(ALL(Clube),[Precisão Passes], , DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    ResultadoRanking
+			)
+			    
+			```
+		formatString: 0
+		displayFolder: Clube\Passes
+		lineageTag: 0bce6518-8197-4e34-bf8f-71bf96150b76
+
+	measure 'Minimo Faltas Cometidas por Jogo' = ```
+			MINX(ALL(Clube),[Faltas Cometidas por Jogo])
+			
+			    
+			```
+		formatString: #,0.0
+		displayFolder: Clube\Faltas
+		lineageTag: a2573b7b-e39e-4709-b70b-3954af3a32e8
+
+	measure 'Maximo Aproveitamento' = ```
+			MAXX(ALL(Clube),[Aproveitamento])
+				
+				
+			```
+		displayFolder: Clube\Aproveitamento
+		lineageTag: d3e1f2db-25cb-4b40-987e-45ca1b9d5458
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Minimo Cartões Amarelos por Jogo' = ```
+			MINX(ALL(Clube),[Cartões Amarelos por Jogo])
+				
+				
+			```
+		displayFolder: Clube\Cartões
+		lineageTag: 5358be85-55c5-42d3-a193-97b29344e16d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Minimo Cartões Vermelhos por Jogo' = ```
+			MINX(ALL(Clube),[Cartões Vermelhos por Jogo])
+				
+				
+			```
+		displayFolder: Clube\Cartões
+		lineageTag: 971ef5a2-f928-48ce-b768-9a9cb39e6c91
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Maximo Chutes por Jogo' = ```
+			MAXX(ALL(Clube),[Chutes por Jogo])
+				  
+				
+			```
+		formatString: #,0.0
+		displayFolder: Clube\Chutes\Chutes Feitos
+		lineageTag: 9a8013a0-1ee6-40c9-a101-f321f4916286
+
+	measure 'Maximo Escanteios por Jogo' = ```
+			MAXX(ALL(Clube),[Escanteios por Jogo])
+				
+				
+			```
+		displayFolder: Clube\Escanteios
+		lineageTag: b54ba1f5-5df7-4989-b384-f74bbdf766e4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Maximo Média de Gols por Jogo' = ```
+			MAXX(ALL(Clube),[Média de Gols])
+				
+				
+			```
+		displayFolder: Clube\Gols\Gols Feitos
+		lineageTag: eeb0f35c-6b42-449f-9aeb-c98da20dfe79
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Minimo Gols Sofridos por Jogo' = ```
+			MINX(ALL(Clube),[Gols Sofridos por Jogo])
+				
+				
+			```
+		displayFolder: Clube\Gols\Gols Sofridos
+		lineageTag: 2265d32d-1f1c-4dae-9d94-dfc3238bfdc4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Minimo Impedimentos por Jogo' = ```
+			MINX(ALL(Clube),[Impedimentos por Jogo])
+				
+				
+			```
+		displayFolder: Clube\Impedimentos
+		lineageTag: 38a4f1af-6cb4-48f5-9474-adedfde2edc4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Maximo Passes por Jogo' = ```
+			MAXX(ALL(Clube),[Passes por Jogo])
+				
+				
+			```
+		formatString: #,0
+		displayFolder: Clube\Passes
+		lineageTag: e1acfc36-ac64-41bd-b4e9-024977f10a11
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Maximo Posse de Bola por Jogo' = ```
+			MAXX(ALL(Clube),[Posse de Bola])
+				
+				
+				
+				
+				  
+				
+				
+			
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Clube\Posse de Bola
+		lineageTag: be656d7c-a522-4d34-9722-4ca551be63fa
+
+	measure 'Chutes Alvo por Jogo' = IF([Chutes Alvo]=BLANK(),BLANK(),DIVIDE([Chutes Alvo],[Jogos],BLANK()))
+		formatString: #,0.00
+		displayFolder: Clube\Chutes\Chutes Feitos
+		lineageTag: f97e917c-13f9-48f5-8777-983dd724ea69
+
+	measure 'Maximo Chutes Alvo por Jogo' = MAXX(ALL(Clube),[Chutes Alvo por Jogo])
+		formatString: #,0.00
+		displayFolder: Clube\Chutes\Chutes Feitos
+		lineageTag: a8076912-9a1c-4d84-ab64-4aba98f167b4
+
+	measure 'Rank Chutes Alvo por Jogo' = ```
+			VAR CriterioRanking = [Chutes Alvo por Jogo]
+			VAR ResultadoRanking = RANKX(ALL(Clube),[Chutes Alvo por Jogo], , DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    ResultadoRanking
+			)
+			     
+			```
+		formatString: 0
+		displayFolder: Clube\Chutes\Chutes Feitos
+		lineageTag: b19daefa-e11b-4474-8b4a-e3362b2bad53
+
+	measure 'Chutes Sofridos Mandante' = SUM('Partida'[chutes_visitante])
+		formatString: #,0
+		displayFolder: Clube\Chutes\Chutes Sofridos
+		lineageTag: 38fdb688-ec30-4d61-81c5-3fb88ee721a4
+
+	measure 'Chutes Sofridos Visitante' = CALCULATE(SUM('Partida'[chutes_mandante]),USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube]))
+		formatString: #,0
+		displayFolder: Clube\Chutes\Chutes Sofridos
+		lineageTag: 481bd950-2800-44d1-9cdd-52ff10837610
+
+	measure 'Chutes Sofridos' = [Chutes Sofridos Mandante]+[Chutes Sofridos Visitante]
+		formatString: #,0
+		displayFolder: Clube\Chutes\Chutes Sofridos
+		lineageTag: 00b0244f-e1d4-4112-8657-8863b6593eb8
+
+	measure 'Chutes Sofridos por Jogo' = IF([Chutes Sofridos]=BLANK(),BLANK(),DIVIDE([Chutes Sofridos],[Jogos],BLANK()))
+		formatString: #,0.0
+		displayFolder: Clube\Chutes\Chutes Sofridos
+		lineageTag: e6a69e49-fc53-413f-8657-db9c4f11a133
+
+	measure 'Chutes Alvo Sofridos Mandante' = SUM('Partida'[chutes_alvo_visitante])
+		formatString: #,0
+		displayFolder: Clube\Chutes\Chutes Sofridos
+		lineageTag: 76eac363-cc42-45a5-838f-d1aadf7f68f9
+
+	measure 'Chutes Alvo Sofridos Visitante' = CALCULATE(SUM('Partida'[chutes_alvo_mandante]),USERELATIONSHIP('Partida'[id_clube_visitante],'Clube'[id_clube]))
+		formatString: 0
+		displayFolder: Clube\Chutes\Chutes Sofridos
+		lineageTag: 0bbda1b5-6d6c-4fb9-980b-393a6b4ac218
+
+	measure 'Chutes Alvo Sofridos' = [Chutes Alvo Sofridos Mandante]+[Chutes Alvo Sofridos Visitante]
+		formatString: #,0
+		displayFolder: Clube\Chutes\Chutes Sofridos
+		lineageTag: ef65eba1-3c6f-4be6-8cca-c094c76b2635
+
+	measure 'Chutes Alvo Sofridos por Jogo' = IF([Chutes Alvo Sofridos]=BLANK(),BLANK(),DIVIDE([Chutes Alvo Sofridos],[Jogos],BLANK()))
+		formatString: #,0.00
+		displayFolder: Clube\Chutes\Chutes Sofridos
+		lineageTag: 990ddbb4-4672-4e0b-95d1-142640cfc17f
+
+	measure 'Rank Chutes Sofridos por Jogo' = ```
+			VAR CriterioRanking = [Chutes Sofridos por Jogo]
+			VAR ResultadoRanking = RANKX(FILTER(ALL(Clube), NOT ISBLANK([Chutes Sofridos por Jogo])),[Chutes Sofridos por Jogo], , ASC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    ResultadoRanking
+			)
+			    
+			```
+		formatString: 0
+		displayFolder: Clube\Chutes\Chutes Sofridos
+		lineageTag: 124da773-81cb-4da0-ba10-d4d904894462
+
+	measure 'Rank Chutes Alvo Sofridos por Jogo' = ```
+			VAR CriterioRanking = [Chutes Alvo Sofridos por Jogo]
+			VAR ResultadoRanking = RANKX(FILTER(ALL(Clube), NOT ISBLANK([Chutes Alvo Sofridos por Jogo])),[Chutes Alvo Sofridos por Jogo], , ASC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    ResultadoRanking
+			)
+			   
+			```
+		formatString: 0
+		displayFolder: Clube\Chutes\Chutes Sofridos
+		lineageTag: 320f41ee-6b6b-473b-b67b-cf09cffd1a86
+
+	measure 'Minimo Chutes Sofridos por Jogo' = MINX(ALL(Clube),[Chutes Sofridos por Jogo])
+		formatString: #,0.0
+		displayFolder: Clube\Chutes\Chutes Sofridos
+		lineageTag: 8763cf0b-20de-4350-a51f-7525c66a0fb9
+
+	measure 'Minimo Chutes Alvo Sofridos por Jogo' = MINX(ALL(Clube),[Chutes Alvo Sofridos por Jogo])
+		formatString: #,0.00
+		displayFolder: Clube\Chutes\Chutes Sofridos
+		lineageTag: b67d5a62-4062-4b93-ac67-331bea9671ac
+
+	measure 'Maximo Precisao Passes' = MAXX(ALL(Clube),[Precisão Passes])
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Clube\Passes
+		lineageTag: b102230d-a830-4e01-891d-6f0d3c733ec2
+
+	measure '% Gols 1º tempo' = DIVIDE(CALCULATE(COUNTROWS('Fato Gol'),'Fato Gol'[tempo_gol]="1º tempo"),CALCULATE(COUNTROWS('Fato Gol')))
+		formatString: 0%;-0%;0%
+		displayFolder: Campeonato
+		lineageTag: b6b79750-2b41-4045-8b3b-e299718772b0
+
+	measure '% Gols 2º tempo' = DIVIDE(CALCULATE(COUNTROWS('Fato Gol'),'Fato Gol'[tempo_gol]="2º tempo"),CALCULATE(COUNTROWS('Fato Gol')))
+		formatString: 0%;-0%;0%
+		displayFolder: Campeonato
+		lineageTag: f339fb18-c88f-4dc3-91e7-3d1e2a49330c
+
+	measure 'Format Chutes por Jogo' = ```
+			IF([Rank Chutes por Jogo] = 1,"#A3DDB3",IF([Rank Chutes por Jogo]>[Equipes]-4,"#F0A787","#E6E6E6"))
+			
+			    
+			```
+		displayFolder: Formatacao
+		lineageTag: 916eabd3-74fc-46a7-b773-4590f8171b66
+
+	measure 'Format Chutes Alvo por Jogo' = ```
+			IF([Rank Chutes Alvo por Jogo] = 1,"#A3DDB3",IF([Rank Chutes Alvo por Jogo]>[Equipes]-4,"#F0A787","#E6E6E6"))
+			
+			    
+			```
+		formatString: 0
+		displayFolder: Formatacao
+		lineageTag: f710142b-1424-49d6-9a4e-d489038adef0
+
+	measure 'Format Média de Gols' = ```
+			IF([Rank Média de Gols] = 1,"#A3DDB3",IF([Rank Média de Gols]>[Equipes]-4,"#F0A787","#E6E6E6"))
+			
+			    
+			```
+		formatString: 0
+		displayFolder: Formatacao
+		lineageTag: c04c08ab-6a14-406c-ae0a-b32f9382bde6
+
+	measure 'Format Posse de Bola' = ```
+			IF([Rank Posse de Bola] = 1,"#A3DDB3",IF([Rank Posse de Bola]>[Equipes]-4,"#F0A787","#E6E6E6"))
+			
+			    
+			```
+		formatString: 0
+		displayFolder: Formatacao
+		lineageTag: 2433fee4-40a8-4f62-960d-c2d5b195120b
+
+	measure 'Format Precisão Passes' = ```
+			IF([Rank Precisão Passes] = 1,"#A3DDB3",IF([Rank Precisão Passes]>[Equipes]-4,"#F0A787","#E6E6E6"))
+			
+			    
+			```
+		formatString: 0
+		displayFolder: Formatacao
+		lineageTag: 476b1be0-6b6b-4a71-bc07-30f0cf7c4ed8
+
+	measure 'Format Chutes Sofridos por Jogo' = ```
+			IF([Rank Chutes Sofridos por Jogo] = 1,"#A3DDB3",IF([Rank Chutes Sofridos por Jogo]>[Equipes]-4,"#F0A787","#E6E6E6"))
+			
+			    
+			```
+		formatString: 0
+		displayFolder: Formatacao
+		lineageTag: da1a5151-5756-42fa-ac44-0cc58a42a51e
+
+	measure 'Format Chutes Alvo Sofridos por Jogo' = ```
+			IF([Rank Chutes Alvo Sofridos por Jogo] = 1,"#A3DDB3",IF([Rank Chutes Alvo Sofridos por Jogo]>[Equipes]-4,"#F0A787","#E6E6E6"))
+			
+			    
+			```
+		formatString: 0
+		displayFolder: Formatacao
+		lineageTag: 29c6f85e-5783-44de-8f9c-75b6319708bd
+
+	measure 'Format Gols Sofridos por Jogo' = ```
+			IF([Rank Gols Sofridos por Jogo] = 1,"#A3DDB3",IF([Rank Gols Sofridos por Jogo]>[Equipes]-4,"#F0A787","#E6E6E6"))
+			
+			    
+			```
+		formatString: 0
+		displayFolder: Formatacao
+		lineageTag: ee2a05af-0b4f-4e01-b29b-5858a3096154
+
+	measure 'Format Faltas Cometidas por Jogo' = ```
+			IF([Rank Faltas Cometidas por Jogo] = 1,"#A3DDB3",IF([Rank Faltas Cometidas por Jogo]>[Equipes]-4,"#F0A787","#E6E6E6"))
+			
+			    
+			```
+		formatString: 0
+		displayFolder: Formatacao
+		lineageTag: dbc975e2-c029-4ea7-8215-86bb6c537cc2
+
+	measure 'Format Cartões Amarelos por Jogo' = ```
+			IF([Rank Cartões Amarelos por Jogo] = 1,"#A3DDB3",IF([Rank Cartões Amarelos por Jogo]>[Equipes]-4,"#F0A787","#E6E6E6"))
+			
+			    
+			```
+		formatString: 0
+		displayFolder: Formatacao
+		lineageTag: e988753b-bf47-4ee0-b11b-e8fb5408ebf5
+
+	measure 'Format Cartões Vermelhos por Jogo' = ```
+			IF([Rank Cartões Vermelhos por Jogo] = 1,"#A3DDB3",IF([Rank Cartões Vermelhos por Jogo]>[Equipes]-4,"#F0A787","#E6E6E6"))
+			
+			```
+		formatString: 0
+		displayFolder: Formatacao
+		lineageTag: e1c316cc-9e54-4a6d-ad19-43625dfa2c52
+
+	measure 'Rank Chutes por Jogo #' = ```
+			VAR CriterioRanking = [Chutes por Jogo]
+			VAR ResultadoRanking = RANKX(ALL(Clube),[Chutes por Jogo], , DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    "#"&ResultadoRanking
+			)
+			    
+			```
+		displayFolder: Clube\Chutes\Chutes Feitos
+		lineageTag: 1fb60bd4-1021-474b-9593-27bc64fd2431
+
+	measure 'Rank Cartões Amarelos por Jogo #' = ```
+			VAR CriterioRanking = [Cartões Amarelos por Jogo]
+			VAR ResultadoRanking = RANKX(FILTER(ALL(Clube), NOT ISBLANK([Cartões Amarelos por Jogo])),[Cartões Amarelos por Jogo], , ASC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    "#"&ResultadoRanking
+			)
+			    
+			```
+		displayFolder: Clube\Cartões
+		lineageTag: ac4d81bd-ee88-4909-a52b-4a9a24733bad
+
+	measure 'Rank Cartões Vermelhos por Jogo #' = ```
+			VAR CriterioRanking = [Cartões Vermelhos por Jogo]
+			VAR ResultadoRanking = RANKX(FILTER(ALL(Clube), NOT ISBLANK([Cartões Vermelhos por Jogo])),[Cartões Vermelhos por Jogo], , ASC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    "#"&ResultadoRanking
+			)
+			    
+			```
+		displayFolder: Clube\Cartões
+		lineageTag: e4b63f72-a441-465e-8fb7-bd8ff63b8d43
+
+	measure 'Rank Escanteios por Jogo #' = ```
+			VAR CriterioRanking = [Escanteios por Jogo]
+			VAR ResultadoRanking = RANKX(ALL(Clube),[Escanteios por Jogo], , DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    "#"&ResultadoRanking
+			)
+			    
+			```
+		displayFolder: Clube\Escanteios
+		lineageTag: 5590c2ed-e350-4488-9187-11d149520f1a
+
+	measure 'Rank Faltas Cometidas por Jogo #' = ```
+			VAR CriterioRanking = [Faltas Cometidas por Jogo]
+			VAR ResultadoRanking = RANKX(FILTER(ALL(Clube), NOT ISBLANK([Faltas Cometidas por Jogo])),[Faltas Cometidas por Jogo], , ASC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    "#"&ResultadoRanking
+			)
+			    
+			```
+		displayFolder: Clube\Faltas
+		lineageTag: d1ed0f4b-9bfb-4d41-a806-c1fff1a995fc
+
+	measure 'Rank Média de Gols #' = ```
+			VAR CriterioRanking = [Média de Gols]
+			VAR ResultadoRanking = RANKX(ALL(Clube),[Média de Gols], , DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    "#"&ResultadoRanking
+			)
+			    
+			```
+		displayFolder: Clube\Gols\Gols Feitos
+		lineageTag: c6052321-caef-46b5-8a49-ec19c5aa79e9
+
+	measure 'Rank Gols Sofridos por Jogo #' = ```
+			VAR CriterioRanking = [Gols Sofridos por Jogo]
+			VAR ResultadoRanking = RANKX(FILTER(ALL(Clube), NOT ISBLANK([Gols Sofridos por Jogo])),[Gols Sofridos por Jogo], , ASC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    "#"&ResultadoRanking
+			)
+			    
+			```
+		displayFolder: Clube\Gols\Gols Sofridos
+		lineageTag: 4cc70b70-8392-48de-a92e-4aa8558cd79f
+
+	measure 'Rank Impedimentos por Jogo #' = ```
+			VAR CriterioRanking = [Impedimentos por Jogo]
+			VAR ResultadoRanking = RANKX(FILTER(ALL(Clube), NOT ISBLANK([Impedimentos por Jogo])),[Impedimentos por Jogo], , ASC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    "#"&ResultadoRanking
+			)
+			    
+			```
+		displayFolder: Clube\Impedimentos
+		lineageTag: 8063c99f-0ff1-4764-8d03-bb80b826d280
+
+	measure 'Rank Passes por Jogo #' = ```
+			VAR CriterioRanking = [Passes por Jogo]
+			VAR ResultadoRanking = RANKX(ALL(Clube),[Passes por Jogo], , DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    "#"&ResultadoRanking
+			)
+			    
+			```
+		displayFolder: Clube\Passes
+		lineageTag: 24b75d09-4c25-4f07-953a-ba58ece42951
+
+	measure 'Rank Posse de Bola #' = ```
+			VAR CriterioRanking = [Posse de Bola]
+			VAR ResultadoRanking = RANKX(ALL(Clube),[Posse de Bola], , DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    "#"&ResultadoRanking
+			)
+			    
+			```
+		displayFolder: Clube\Posse de Bola
+		lineageTag: 313b199e-8758-4c72-93a8-ad371ca0db18
+
+	measure 'Rank Precisão Passes #' = ```
+			VAR CriterioRanking = [Precisão Passes]
+			VAR ResultadoRanking = RANKX(ALL(Clube),[Precisão Passes], , DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    "#"&ResultadoRanking
+			)
+			    
+			```
+		displayFolder: Clube\Passes
+		lineageTag: 37f5371b-9ed8-4ab6-8e15-3b825ffdfec9
+
+	measure 'Rank Chutes Alvo por Jogo #' = ```
+			VAR CriterioRanking = [Chutes Alvo por Jogo]
+			VAR ResultadoRanking = RANKX(ALL(Clube),[Chutes Alvo por Jogo], , DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    "#"&ResultadoRanking
+			)
+			     
+			```
+		displayFolder: Clube\Chutes\Chutes Feitos
+		lineageTag: 5d509cee-1108-4c74-9937-2e5f1bc21655
+
+	measure 'Rank Chutes Sofridos por Jogo #' = ```
+			VAR CriterioRanking = [Chutes Sofridos por Jogo]
+			VAR ResultadoRanking = RANKX(FILTER(ALL(Clube), NOT ISBLANK([Chutes Sofridos por Jogo])),[Chutes Sofridos por Jogo], , ASC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    "#"&ResultadoRanking
+			)
+			    
+			```
+		displayFolder: Clube\Chutes\Chutes Sofridos
+		lineageTag: 5a82473c-60fb-465e-ba15-4e9a18b41404
+
+	measure 'Rank Chutes Alvo Sofridos por Jogo #' = ```
+			VAR CriterioRanking = [Chutes Alvo Sofridos por Jogo]
+			VAR ResultadoRanking = RANKX(FILTER(ALL(Clube), NOT ISBLANK([Chutes Alvo Sofridos por Jogo])),[Chutes Alvo Sofridos por Jogo], , ASC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking),
+			    BLANK(),
+			    "#"&ResultadoRanking
+			)
+			   
+			```
+		displayFolder: Clube\Chutes\Chutes Sofridos
+		lineageTag: 1cffdde2-a233-4c34-ab3e-6d8c669d602b
+
+	measure 'Format Passes por Jogo' = ```
+			IF([Rank Passes por Jogo] = 1,"#A3DDB3",IF([Rank Passes por Jogo]>[Equipes]-4,"#F0A787","#E6E6E6"))
+			
+			```
+		displayFolder: Formatacao
+		lineageTag: 4c11c2fb-24e8-470f-bd18-677219d288be
+
+	measure 'Format Evol Média de Gols' = IF([Dif Média de Gols] > 0,"#A3DDB3",IF([Dif Média de Gols] < 0,"#F0A787","#E6E6E6"))
+		displayFolder: Formatacao
+		lineageTag: 901cfd36-6de7-40a3-8c20-aa517861c99e
+
+	measure 'Classificação #' = ```
+			
+			VAR CriterioRanking = [Pontos]*10000 + [Vitórias] * 1000 + [Saldo de Gols]
+			VAR ResultadoRanking = RANKX(ALL(Clube[Nome do Clube],Clube[Escudo]),[Pontos]*10000 + [Vitórias] * 1000 + [Saldo de Gols], , DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking) || CriterioRanking = 0,
+			    BLANK(),
+			    "#"&ResultadoRanking
+			)
+			```
+		displayFolder: Clube\Desempenho
+		lineageTag: 76ffe08b-2df1-4199-8afc-0b8fc792fb61
+
+	measure 'Saldo de Gols Mandante' = [Gols Feitos Mandante] - [Gols Sofridos Mandante]
+		formatString: 0
+		displayFolder: Clube\Gols\Gols Feitos
+		lineageTag: cc7a7c2e-7b6f-4716-b526-04637063721b
+
+	measure 'Classificação Mandante' = ```
+			
+			VAR CriterioRanking = [Pontos Mandante]*10000 + [% Vitórias Mandante] * 1000 + [Saldo de Gols Mandante]
+			VAR ResultadoRanking = RANKX(ALL(Clube[Nome do Clube],Clube[Escudo]),[Pontos Mandante]*10000 + [% Vitórias Mandante] * 1000 + [Saldo de Gols Mandante], , DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking) || CriterioRanking = 0,
+			    BLANK(),
+			    ResultadoRanking
+			)
+			```
+		formatString: 0
+		displayFolder: Clube\Desempenho
+		lineageTag: 9326a6d0-7479-4aeb-ad96-1a705297e2c6
+
+	measure 'Saldo de Gols Visitante' = [Gols Feitos Visitante] - [Gols Sofridos Visitante]
+		formatString: 0
+		displayFolder: Clube\Gols\Gols Feitos
+		lineageTag: a723cd2a-3014-4415-91ff-be31d8b95b84
+
+	measure 'Classificação Visitante' = ```
+			
+			VAR CriterioRanking = [Pontos Visitante]*10000 + [% Vitórias Visitante] * 1000 + [Saldo de Gols Visitante]
+			VAR ResultadoRanking = RANKX(ALL(Clube[Nome do Clube],Clube[Escudo]),[Pontos Visitante]*10000 + [% Vitórias Visitante] * 1000 + [Saldo de Gols Visitante], , DESC)
+			
+			RETURN 
+			IF(
+			    ISBLANK(CriterioRanking) || CriterioRanking = 0,
+			    BLANK(),
+			    ResultadoRanking
+			)
+			```
+		formatString: 0
+		displayFolder: Clube\Desempenho
+		lineageTag: a5d40e5d-b031-47d4-acae-1928547e11e1
+
+	measure 'Tooltip info' = ```
+			"
+			Atualização dos dados - estatísticas básicas dos clubes (2003-2023);        
+			Atualização dos dados - estatísticas completas dos clubes (2016-2023);        
+			Atualização dos dados - estatísticas dos jogadores (2014-2023). "
+			```
+		displayFolder: Formatacao
+		lineageTag: 4d8aefd6-41e1-49ab-b569-15d0dd5996e4
+
+	measure 'Tooltip cartao' = "Ranking no campeonato:"
+		displayFolder: Formatacao
+		lineageTag: 4c00c93c-41a4-423f-af1f-d4ade164f29c
+
+	measure 'Format Melhor Ataque Mandante' = VAR MaxValor = MAXX(ALL(Clube),[Gols Feitos Mandante]) RETURN IF([Gols Feitos Mandante] = MaxValor,"#ABD1B5")
+		displayFolder: Formatacao
+		lineageTag: 556cfdd9-6ec4-41b3-a666-798c820ea368
+
+	measure 'Format Melhor Defesa Mandante' = VAR MinValor = MINX(ALL(Clube),[Gols Sofridos Mandante]) RETURN IF([Gols Sofridos Mandante] = MinValor,"#ABD1B5")
+		displayFolder: Formatacao
+		lineageTag: 9c5a4604-1691-4870-81a7-b95755e935b9
+
+	measure 'Format Melhor Defesa Visitante' = VAR MinValor = MINX(ALL(Clube),[Gols Sofridos Visitante]) RETURN IF([Gols Sofridos Visitante] = MinValor,"#ABD1B5")
+		displayFolder: Formatacao
+		lineageTag: af28b1db-aaae-487b-82bc-96b3b30c8376
+
+	measure 'Format Melhor Ataque Visitante' = VAR MaxValor = MAXX(ALL(Clube),[Gols Feitos Visitante]) RETURN IF([Gols Feitos Visitante] = MaxValor,"#ABD1B5")
+		displayFolder: Formatacao
+		lineageTag: 99f082de-72ab-402c-a654-c2dd377e537f
+
+	measure 'Format Classificacao Mandante' = IF([Classificação Mandante] = 1,"#A3DDB3",IF([Classificação Mandante]>[Equipes]-4,"#F0A787","#E6E6E6"))
+		displayFolder: Formatacao
+		lineageTag: 560aa84a-127c-4538-a619-782496e6bba9
+
+	measure 'Format Classificacao Visitante' = IF([Classificação Visitante] = 1,"#A3DDB3",IF([Classificação Visitante]>[Equipes]-4,"#F0A787","#E6E6E6"))
+		displayFolder: Formatacao
+		lineageTag: c6a9856b-af2c-44ba-a05d-68a2c93d6b81
+
+	measure 'Tooltip tabela' = "C: Classificação PG: Pontos Ganhos J: Jogos V: Vitórias E: Empates D: Derrotas GP: Gols Pró GC: Gols Contra S: Saldo de Gols %: Aproveitamento de Pontos % M: Aproveitamento como Mandante % V: Aproveitamento como Visitante "
+		displayFolder: Formatacao
+		lineageTag: 543fdde5-04a1-450d-b6ec-68a8da96debc
+
+	column 'Coluna 1'
+		dataType: string
+		isHidden
+		lineageTag: f443ac6f-8fcf-4cb9-b2d5-58c2f1d00f24
+		summarizeBy: none
+		sourceColumn: Coluna 1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Métricas = m
+		mode: import
+		source =
+				let
+				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Coluna 1" = _t]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Coluna 1", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

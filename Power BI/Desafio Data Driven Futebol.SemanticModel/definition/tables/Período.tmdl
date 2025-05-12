@@ -1,0 +1,148 @@
+table Período
+	lineageTag: 41512b96-0091-45fa-b279-9e5768096e2c
+	dataCategory: Time
+
+	column Data
+		dataType: dateTime
+		isKey
+		formatString: Short Date
+		lineageTag: 65bfa71a-1af7-4204-af40-641a1e3d33cd
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Dia do mês'
+		dataType: double
+		lineageTag: 7c0878a5-664d-4938-bc4f-1348b670c621
+		summarizeBy: none
+		sourceColumn: Dia do mês
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Número do mês'
+		dataType: double
+		lineageTag: 9daaeda9-1fee-46a7-9cdc-3f070d86c078
+		summarizeBy: none
+		sourceColumn: Número do mês
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Ano
+		dataType: double
+		formatString: 0
+		lineageTag: 481468f3-6b56-4d27-ae0c-ff167a43f53f
+		summarizeBy: none
+		sourceColumn: Ano
+
+		annotation SummarizationSetBy = User
+
+	column 'Dia da semana'
+		dataType: double
+		lineageTag: e28bd8c8-804e-4609-b4ef-a03b0d68734b
+		summarizeBy: none
+		sourceColumn: Dia da semana
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Nome do mês'
+		dataType: string
+		lineageTag: 4df18258-29ab-4c57-b2a0-a9e290d25da4
+		summarizeBy: none
+		sourceColumn: Nome do mês
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome do dia da semana'
+		dataType: string
+		lineageTag: 1322d12b-b58e-4350-8e5c-aaaa124a5530
+		summarizeBy: none
+		sourceColumn: Nome do dia da semana
+
+		annotation SummarizationSetBy = Automatic
+
+	column Trimestre
+		dataType: double
+		lineageTag: d48e14ee-451d-4db5-a00d-420c2a0fb3bb
+		summarizeBy: none
+		sourceColumn: Trimestre
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Trimestre-Ano
+		dataType: string
+		lineageTag: 851a7bbd-bdf3-42c0-9fc2-bf152c9469a5
+		summarizeBy: none
+		sourceColumn: Trimestre-Ano
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ano-Mês
+		dataType: string
+		lineageTag: ed8e1f5c-7e6c-49e2-9511-4cfc5d80d948
+		summarizeBy: none
+		sourceColumn: Ano-Mês
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número da semana do ano'
+		dataType: double
+		lineageTag: fb25805c-7c10-4516-8e3b-65f8e1c5024c
+		summarizeBy: none
+		sourceColumn: Número da semana do ano
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Fim de semana'
+		dataType: string
+		lineageTag: 9046d1ab-dde5-4c73-b6d1-893535a55cc3
+		summarizeBy: none
+		sourceColumn: Fim de semana
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dateid
+		dataType: int64
+		formatString: 0
+		lineageTag: eb330ee9-2182-4544-a862-5e3038aac8cc
+		summarizeBy: none
+		sourceColumn: Dateid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Edição do campeonato'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6e86194a-9ff9-41b9-ad33-e5f98ed5b433
+		summarizeBy: none
+		sourceColumn: Edição do campeonato
+
+		annotation SummarizationSetBy = User
+
+	partition Período = m
+		mode: import
+		source =
+				let
+				    Fonte = fnTempo(#date(2003, 1, 1), #date(2023, 12, 31)),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Dateid", Int64.Type}}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Tipo Alterado", "Edição do campeonato", each if [Dateid] > 20210101 and [Dateid] < 20210301 then 2020 else [Ano]),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Personalização Adicionada",{{"Edição do campeonato", Int64.Type}})
+				in
+				    #"Tipo Alterado1"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

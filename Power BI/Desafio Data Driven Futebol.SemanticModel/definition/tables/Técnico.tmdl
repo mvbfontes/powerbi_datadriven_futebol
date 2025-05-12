@@ -1,0 +1,43 @@
+table Técnico
+	lineageTag: 4b2d602f-1e55-4522-abd4-18d9d1962d46
+
+	column 'Nome do Técnico'
+		dataType: string
+		lineageTag: 509bb8f1-344d-4beb-90d0-98c1845ac640
+		summarizeBy: none
+		sourceColumn: Nome do Técnico
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_tecnico
+		dataType: string
+		isHidden
+		lineageTag: 2d55990b-4c49-48ff-b835-a9386b27e6d0
+		summarizeBy: none
+		sourceColumn: id_tecnico
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Técnico = m
+		mode: import
+		source =
+				let
+				    Fonte = Table.Combine({#"campeonato-brasileiro-full-tecnico-visitante", #"campeonato-brasileiro-full-tecnico-mandante"}),
+				    #"Linhas Classificadas" = Table.Sort(Fonte,{{"tecnico", Order.Ascending}}),
+				    #"Duplicatas Removidas" = Table.Distinct(#"Linhas Classificadas"),
+				    #"Índice Adicionado" = Table.AddIndexColumn(#"Duplicatas Removidas", "Índice", 1, 1, Int64.Type),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Índice Adicionado",{{"Índice", "id_tecnico"}, {"tecnico", "nome_tecnico"}}),
+				    LinhaPadrao = Table.FromRecords({
+				        [nome_tecnico = "Não informado", id_tecnico = -1]
+				    }),
+				    TabelaExpandida = Table.Combine({#"Colunas Renomeadas", LinhaPadrao}),
+				    #"Colunas Renomeadas1" = Table.RenameColumns(TabelaExpandida,{{"nome_tecnico", "Nome do Técnico"}})
+				in
+				    #"Colunas Renomeadas1"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

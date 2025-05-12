@@ -1,0 +1,168 @@
+table 'Fato Disciplina'
+	isHidden
+	lineageTag: 7f5f187e-1d90-45f6-a9bd-89706592ed90
+
+	column id_clube
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2c9a7e1a-878e-4c25-9daa-0fc141a714c3
+		summarizeBy: none
+		sourceColumn: id_clube
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_jogador
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 09df4545-0819-4e07-b48e-85e1e34d972c
+		summarizeBy: none
+		sourceColumn: id_jogador
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_partida
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f88f5905-1a21-4257-bbef-d8ebe78c8cea
+		summarizeBy: none
+		sourceColumn: id_partida
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column rodada
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f77c4119-0211-4f11-8ec7-86790d107630
+		summarizeBy: none
+		sourceColumn: rodada
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column cartao
+		dataType: string
+		isHidden
+		lineageTag: 073336d2-84f5-45fc-9902-61e36575bc86
+		summarizeBy: none
+		sourceColumn: cartao
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column minuto
+		dataType: string
+		isHidden
+		lineageTag: 2ff2b312-3143-4742-87d7-77ad33e62bb5
+		summarizeBy: none
+		sourceColumn: minuto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dateid
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: bc14ea4f-98bd-4006-88ad-03d08e94dccf
+		summarizeBy: none
+		sourceColumn: Dateid
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_clube_mandante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7c370ce1-1bb2-41cd-96d0-8708d606d2c6
+		summarizeBy: none
+		sourceColumn: id_clube_mandante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column id_clube_visitante
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: de577014-3dab-44cd-a96f-1b14780ba5fb
+		summarizeBy: none
+		sourceColumn: id_clube_visitante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column id_tecnico_mandante
+		dataType: string
+		isHidden
+		lineageTag: 6d42611b-d507-4fc3-8240-d4d0fa49e9b5
+		summarizeBy: none
+		sourceColumn: id_tecnico_mandante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_tecnico_visitante
+		dataType: string
+		isHidden
+		lineageTag: 841a0ed7-4542-4bf1-813d-cbc7b0da5ea4
+		summarizeBy: none
+		sourceColumn: id_tecnico_visitante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_estádio
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: cea26c72-d0a8-4232-9155-ba69f865e55f
+		summarizeBy: none
+		sourceColumn: id_estádio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Fato Disciplina' = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(Web.Contents("https://raw.githubusercontent.com/mvbfontes/powerbi_datadriven_futebol/refs/heads/main/Dados/campeonato-brasileiro-cartoes.csv"),[Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"partida_id", Int64.Type}, {"rodata", Int64.Type}, {"clube", type text}, {"cartao", type text}, {"atleta", type text}, {"num_camisa", Int64.Type}, {"posicao", type text}, {"minuto", type text}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado",{{"partida_id", "id_partida"}, {"rodata", "rodada"}}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Colunas Renomeadas", {"clube"}, Clube, {"Nome do Clube"}, "Dim Clube", JoinKind.LeftOuter),
+				    #"Dim Clube Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Dim Clube", {"id_clube"}, {"id_clube"}),
+				    #"Consultas Mescladas1" = Table.NestedJoin(#"Dim Clube Expandido", {"atleta", "clube"}, Jogador, {"Nome do Jogador", "Nome do Clube"}, "Dim Jogador", JoinKind.LeftOuter),
+				    #"Dim Jogador Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas1", "Dim Jogador", {"id_jogador"}, {"id_jogador"}),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(#"Dim Jogador Expandido",{ "id_clube", "id_jogador", "id_partida", "rodada", "cartao", "minuto"}),
+				    #"Consultas Mescladas2" = Table.NestedJoin(#"Outras Colunas Removidas", {"id_partida"}, Partida, {"id_partida"}, "Fato Partida", JoinKind.LeftOuter),
+				    #"Fato Partida Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas2", "Fato Partida", {"Dateid", "id_clube_mandante", "id_clube_visitante", "id_tecnico_mandante", "id_tecnico_visitante", "id_estádio"}, {"Dateid", "id_clube_mandante", "id_clube_visitante", "id_tecnico_mandante", "id_tecnico_visitante", "id_estádio"})
+				in
+				    #"Fato Partida Expandido"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

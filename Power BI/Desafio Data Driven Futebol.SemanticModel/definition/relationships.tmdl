@@ -1,0 +1,58 @@
+relationship AutoDetected_fd5c4014-02e7-4a1d-9a94-5ab67d70a65e
+	fromColumn: Partida.Dateid
+	toColumn: Período.Dateid
+
+relationship AutoDetected_d210949b-7e7e-4740-afd0-6e8850c47fbc
+	fromColumn: Partida.id_estádio
+	toColumn: Estádio.id_estádio
+
+relationship 7511e8df-ad35-6784-70b2-89f7603e518d
+	fromColumn: Partida.id_clube_mandante
+	toColumn: Clube.id_clube
+
+relationship c6c89c00-f776-853b-6df6-ab6ffcacde4b
+	isActive: false
+	fromColumn: Partida.id_clube_visitante
+	toColumn: Clube.id_clube
+
+relationship AutoDetected_0cf10070-b66d-4868-b726-995e419bb5bf
+	fromColumn: 'Fato Gol'.id_jogador
+	toColumn: Jogador.id_jogador
+
+relationship AutoDetected_4015aaf7-d71b-440c-8c17-09b667eda963
+	fromColumn: 'Fato Gol'.id_clube
+	toColumn: Clube.id_clube
+
+relationship AutoDetected_df3b124c-1ddd-414c-bee5-c3bd2ca51f0d
+	fromColumn: 'Fato Disciplina'.id_jogador
+	toColumn: Jogador.id_jogador
+
+relationship AutoDetected_23284f1f-3e88-48e9-8236-81a528e19f5c
+	fromColumn: 'Fato Disciplina'.id_clube
+	toColumn: Clube.id_clube
+
+relationship AutoDetected_28405272-572f-4d9a-a9b2-382d56e2a0f9
+	fromColumn: 'Fato Gol'.Dateid
+	toColumn: Período.Dateid
+
+relationship AutoDetected_44bd9fd0-12f7-412a-afbd-18e90a5e964f
+	fromColumn: 'Fato Gol'.id_estádio
+	toColumn: Estádio.id_estádio
+
+relationship AutoDetected_6d687b5a-879c-4ad8-b3e6-b9dd9be06d5b
+	fromColumn: 'Fato Disciplina'.Dateid
+	toColumn: Período.Dateid
+
+relationship AutoDetected_d1ffbb91-ec74-4606-84c3-7480496b44ef
+	fromColumn: 'Fato Disciplina'.id_estádio
+	toColumn: Estádio.id_estádio
+
+relationship 8796d469-531d-2334-c930-1241b8e24e77
+	fromColumn: Partida.id_tecnico_mandante
+	toColumn: Técnico.id_tecnico
+
+relationship e2a4353a-977f-4694-f9b0-013bdc8decf7
+	isActive: false
+	fromColumn: Partida.id_tecnico_visitante
+	toColumn: Técnico.id_tecnico
+

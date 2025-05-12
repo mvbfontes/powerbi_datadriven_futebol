@@ -1,0 +1,138 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 230.39999389648438
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 586.20067468552611,
+            "y": 1276.7751440275049
+          },
+          "nodeIndex": "Métricas",
+          "nodeLineageTag": "ae990b45-3c95-4215-9eba-caf808b0dd77",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 1402.846852619117,
+            "y": 735.24327334241264
+          },
+          "nodeIndex": "Fato Gol",
+          "nodeLineageTag": "d7af56d8-5076-48ad-b582-d0a116fc9355",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 959.01499310381143,
+            "y": 948.7315458154593
+          },
+          "nodeIndex": "Fato Disciplina",
+          "nodeLineageTag": "7f5f187e-1d90-45f6-a9bd-89706592ed90",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 35.999999999999986,
+            "y": 635.73398061969988
+          },
+          "nodeIndex": "Clube",
+          "nodeLineageTag": "1d0ce582-ffaa-4bf6-a58d-9bd06de8cfb9",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 1371.8446507532121,
+            "y": 1412.8547815847016
+          },
+          "nodeIndex": "Estádio",
+          "nodeLineageTag": "0fc3f022-46c4-4f0a-a670-a55df9c54549",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 1038.1303866792448,
+            "y": 427.5
+          },
+          "nodeIndex": "Jogador",
+          "nodeLineageTag": "65153a10-498c-42ac-be8c-3cb14069ca10",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 72.823996157981981,
+            "y": 1273.661103887187
+          },
+          "nodeIndex": "Técnico",
+          "nodeLineageTag": "4b2d602f-1e55-4522-abd4-18d9d1962d46",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 613.937466174134,
+            "y": 544.45963839335786
+          },
+          "nodeIndex": "Período",
+          "nodeLineageTag": "41512b96-0091-45fa-b279-9e5768096e2c",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 329.36576478226493,
+            "y": 931.45992132904985
+          },
+          "nodeIndex": "Partida",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas as tabelas",
+      "zoomValue": 50,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas as tabelas",
+  "defaultDiagram": "Todas as tabelas"
+}

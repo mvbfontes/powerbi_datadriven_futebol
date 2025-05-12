@@ -1,0 +1,131 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/1.2.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "CY24SU10",
+      "reportVersionAtImport": "5.62",
+      "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "AccessibleDefault",
+      "reportVersionAtImport": "5.62",
+      "type": "SharedResources"
+    }
+  },
+  "layoutOptimization": "None",
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "publicCustomVisuals": [
+    "PBI_CV_16948668_E17D_454B_8664_2F2C470EA8C1",
+    "wishyoulizationbarchartrace"
+  ],
+  "resourcePackages": [
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "1_-_Pag_Inicial4405951528124208.png",
+          "path": "1_-_Pag_Inicial4405951528124208.png",
+          "type": "Image"
+        },
+        {
+          "name": "2-_Pag_Artilharia10400194504464844.png",
+          "path": "2-_Pag_Artilharia10400194504464844.png",
+          "type": "Image"
+        },
+        {
+          "name": "2-_Pag_Classificacao08264576467599383.png",
+          "path": "2-_Pag_Classificacao08264576467599383.png",
+          "type": "Image"
+        },
+        {
+          "name": "3-_KPI_(2)04633555997283001.png",
+          "path": "3-_KPI_(2)04633555997283001.png",
+          "type": "Image"
+        },
+        {
+          "name": "4-_Pag_Historico_(1)6529215846237538.png",
+          "path": "4-_Pag_Historico_(1)6529215846237538.png",
+          "type": "Image"
+        },
+        {
+          "name": "5-_Pag_Disciplina_(1)40395027831145136.png",
+          "path": "5-_Pag_Disciplina_(1)40395027831145136.png",
+          "type": "Image"
+        },
+        {
+          "name": "6-_Home_(1)25170862622833157.png",
+          "path": "6-_Home_(1)25170862622833157.png",
+          "type": "Image"
+        },
+        {
+          "name": "OIP6333757433179823.jpg",
+          "path": "OIP6333757433179823.jpg",
+          "type": "Image"
+        },
+        {
+          "name": "linkedin_logo10379057058071839.jpg",
+          "path": "linkedin_logo10379057058071839.jpg",
+          "type": "Image"
+        }
+      ]
+    },
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "AccessibleDefault",
+          "path": "BuiltInThemes/AccessibleDefault.json",
+          "type": "CustomTheme"
+        },
+        {
+          "name": "CY24SU10",
+          "path": "BaseThemes/CY24SU10.json",
+          "type": "BaseTheme"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
+    "useDefaultAggregateDisplayName": true
+  },
+  "slowDataSourceSettings": {
+    "isCrossHighlightingDisabled": false,
+    "isSlicerSelectionsButtonEnabled": false,
+    "isFilterSelectionsButtonEnabled": false,
+    "isFieldWellButtonEnabled": false,
+    "isApplyAllButtonEnabled": false
+  }
+}
