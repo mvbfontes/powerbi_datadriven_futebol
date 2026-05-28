@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.7.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "f853496a7ac2be4a80fa",
   "position": {
     "x": 351.07422437491817,
@@ -133,6 +133,20 @@
               "expr": {
                 "Literal": {
                   "Value": "'Cards'"
+                }
+              }
+            },
+            "showFixedSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "autoGrid": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -804,5 +818,70 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "4c3c6b5fd4aa50cbf6b6",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Clube"
+                  }
+                },
+                "Property": "Nome do Clube"
+              }
+            },
+            "Function": 3
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "8011ab942c5115a7bfaf",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Métricas"
+              }
+            },
+            "Property": "Classificação #"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "226bc0e53d69d3a3819c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Métricas"
+              }
+            },
+            "Property": "Aproveitamento"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f7203aab4379f96a28d1",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Métricas"
+              }
+            },
+            "Property": "Pontos"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

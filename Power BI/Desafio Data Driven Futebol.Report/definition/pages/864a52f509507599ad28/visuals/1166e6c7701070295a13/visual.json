@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.7.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "1166e6c7701070295a13",
   "position": {
     "x": 1471.1684205325826,
@@ -735,6 +735,25 @@
           ]
         },
         "howCreated": "User"
+      },
+      {
+        "name": "e037b050d41b75188296",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Partida"
+                  }
+                },
+                "Property": "resultado"
+              }
+            },
+            "Function": 3
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }
