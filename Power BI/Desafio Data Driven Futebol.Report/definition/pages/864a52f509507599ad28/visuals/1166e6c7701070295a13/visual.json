@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "1166e6c7701070295a13",
   "position": {
     "x": 1471.1684205325826,
@@ -7,7 +7,7 @@
     "z": 2000,
     "height": 248.9046983844672,
     "width": 339.96739291536983,
-    "tabOrder": 2000
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -540,6 +540,32 @@
             "id": "field-d42b0ae9-15cb-24ba-3323-722dfbcd9c10",
             "order": 0
           }
+        },
+        {
+          "properties": {
+            "backgroundColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "backgroundShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
         }
       ],
       "divider": [
@@ -735,25 +761,6 @@
           ]
         },
         "howCreated": "User"
-      },
-      {
-        "name": "e037b050d41b75188296",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Partida"
-                  }
-                },
-                "Property": "resultado"
-              }
-            },
-            "Function": 3
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }

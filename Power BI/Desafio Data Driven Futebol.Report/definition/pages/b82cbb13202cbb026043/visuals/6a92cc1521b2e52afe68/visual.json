@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.7.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "6a92cc1521b2e52afe68",
   "position": {
     "x": 555.74800247910355,
@@ -7,7 +7,7 @@
     "z": 4000,
     "height": 63.808103988341514,
     "width": 339.62377929278546,
-    "tabOrder": 4000
+    "tabOrder": 3000
   },
   "visual": {
     "visualType": "PBI_CV_16948668_E17D_454B_8664_2F2C470EA8C1",

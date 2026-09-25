@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.7.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "eaa81dd3c5b46bcac9a4",
   "position": {
     "x": 349.91540896832441,
@@ -7,7 +7,7 @@
     "z": 3000,
     "height": 345.79875709810887,
     "width": 722.47240322283449,
-    "tabOrder": 2000
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "wishyoulizationbarchartrace",
