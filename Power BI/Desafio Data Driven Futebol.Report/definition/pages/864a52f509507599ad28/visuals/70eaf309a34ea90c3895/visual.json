@@ -259,6 +259,13 @@
                   "Value": "false"
                 }
               }
+            },
+            "style": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Table'"
+                }
+              }
             }
           }
         }
@@ -452,6 +459,13 @@
         {
           "properties": {
             "overFlowDirection": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "overFlowStyle": {
               "expr": {
                 "Literal": {
                   "Value": "0D"
